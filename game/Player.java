@@ -15,6 +15,7 @@ public class Player {
         snakes[number-1] = new Snake();
     }
     public Snake getSnake() throws NotEnoughSnakeException{
+        //System.out.println(numberOfSnack);
         if(numberOfSnack==0)
             throw new NotEnoughSnakeException();
         else {

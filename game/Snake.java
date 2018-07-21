@@ -101,7 +101,7 @@ public class Snake {
                 }
                 break;
         }
-        System.out.println(length);
+        //System.out.println(length);
     }
     public void getPoint() {
         //System.out.println("Get");

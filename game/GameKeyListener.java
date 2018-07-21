@@ -30,29 +30,35 @@ public class GameKeyListener implements KeyListener {
             try {
                 switch(e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
-                        if(p1.getSnake().dir!=0) {
+                        if(p1.getSnake().dir!=0 && GameWindow.valid) {
                             p1.getSnake().dir = 1;
+                            GameWindow.valid = false;
                         }
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if(p1.getSnake().dir!=1) {
+                        if(p1.getSnake().dir!=1 && GameWindow.valid) {
                             p1.getSnake().dir = 0;
+                            GameWindow.valid = false;
                         }
                         break;
                     case KeyEvent.VK_UP:
-                        if(p1.getSnake().dir!=3) {
+                        if(p1.getSnake().dir!=3 && GameWindow.valid) {
                             p1.getSnake().dir = 2;
+                            GameWindow.valid = false;
                         }
                         break;
                     case KeyEvent.VK_DOWN:
-                        if(p1.getSnake().dir!=2) {
+                        if(p1.getSnake().dir!=2 && GameWindow.valid) {
                             p1.getSnake().dir = 3;
+                            GameWindow.valid = false;
                         }
                         break;
+                    case KeyEvent.VK_ESCAPE:
+                        Main.PAUSE = !Main.PAUSE;
+                        break;
                 }
-                //GameWindow.move = 0;
             } catch (NotEnoughSnakeException exception) {
-                Main.reset = true;
+                Main.RESET = true;
             }
         }
         //System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
@@ -60,12 +66,7 @@ public class GameKeyListener implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         switch(e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                p1.numberOfSnack--;
-                break;
-            case KeyEvent.VK_R:
-                Main.reset = true;
-                break;
+
         }
     }
     @Override

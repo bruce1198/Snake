@@ -8,14 +8,15 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class Main{
-    public static boolean reset = false;
+    public static boolean PAUSE = false;
+    public static boolean RESET = false;
     public static int window = 1;
     public static void main(String[] args) throws InterruptedException
                                                 , FileNotFoundException
                                                 , IOException{
 
         JFrame jFrame = new JFrame("Snake");
-        Player player = new Player(10);
+        Player player = new Player(5);
         GameWindow gameWindow = new GameWindow(player);
         BeginWindow beginWindow = new BeginWindow();
         jFrame.addKeyListener(new GameKeyListener(player));
@@ -39,6 +40,7 @@ public class Main{
         init(gameWindow);
         int put = 0;
         while(true) {
+            //System.out.println();
             if(window==1) {
                 jFrame.setContentPane(beginWindow);
                 jFrame.setVisible(true);
@@ -53,15 +55,15 @@ public class Main{
                 jFrame.setContentPane(gameWindow);
                 jFrame.setVisible(true);
                 try {
-                    gameWindow.moveSnake();
+                    if(!PAUSE) gameWindow.moveSnake();
                 } catch (Exception e) {
                     window = 2;
                 }
     
-                if(Point.eggLeft==0) {
+                if(Point.eggLeft==0 && !PAUSE) {
                     put++;
                 }
-                if(put==200) {
+                if(put==200 && !PAUSE) {
                     gameWindow.putPoint(new Point());
                     gameWindow.putPoint(new Point());
                     Point.eggLeft = 2;
@@ -74,6 +76,8 @@ public class Main{
                     
                 }
             }
+            else
+                jFrame.setVisible(true);
         }
     }
     private static void init(GameWindow gameWindow) {

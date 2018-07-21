@@ -14,7 +14,8 @@ public class GameWindow extends JPanel {
     SnakeCave[] snakeCaves;
     int numberOfPoint;
     int numberOfCave;
-    static int move;
+    int move;
+    static boolean valid;
     GameWindow(Player player) {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.WHITE);
@@ -23,6 +24,7 @@ public class GameWindow extends JPanel {
         numberOfCave = 0;
         points = null;
         move = 0;
+        valid = true;
     }
     public void moveSnake() throws NotEnoughSnakeException, 
                                     ArrayIndexOutOfBoundsException{
@@ -48,29 +50,16 @@ public class GameWindow extends JPanel {
             
             if(move==20) {
                 for(int i=p1.getSnake().length-1; i>=1; i--) {
-                    //p1.getSnake().bodies[i].x = p1.getSnake().bodies[i-1].x;
-                    //p1.getSnake().bodies[i].y = p1.getSnake().bodies[i-1].y;
                     p1.getSnake().bodies[i].dir = p1.getSnake().bodies[i-1].dir;
                     p1.getSnake().bodies[i].show = p1.getSnake().bodies[i-1].show;
                 }
                 p1.getSnake().bodies[0].dir = p1.getSnake().dir;
                 move = 0;
+                valid = true;
             }
-            //System.out.println(move);
-            /*if(p1.getSnake().RIGHT) {
-                p1.getSnake().bodies[0].x ++;
-            }
-            else if(p1.getSnake().LEFT) {
-                p1.getSnake().bodies[0].x --;
-            }
-            else if(p1.getSnake().UP) {
-                p1.getSnake().bodies[0].y --;
-            }
-            else if(p1.getSnake().DOWN) {
-                p1.getSnake().bodies[0].y ++;
-            }*/
         }
         else {
+            move = 1;
             p1.getSnake().wait--;
         }
         
@@ -106,6 +95,7 @@ public class GameWindow extends JPanel {
         //count two secs
         else if(p1.getSnake().inCave!=0 && p1.getSnake().wait==0 && p1.getSnake().isInCave && !p1.getSnake().bodies[0].show) {
             p1.getSnake().inCave--;
+            //System.out.println(move);
             //System.out.println("count two secs");
         }
         //head out cave
@@ -115,6 +105,8 @@ public class GameWindow extends JPanel {
             p1.getSnake().bodies[0].show=true;
             int choiceCave = (int) (numberOfCave * Math.random());
             p1.getSnake().setPosAndDir(snakeCaves[choiceCave].x, snakeCaves[choiceCave].y);
+            move = 1;
+            //System.out.println(move);
         }
     }
     @Override
@@ -181,6 +173,13 @@ public class GameWindow extends JPanel {
             }
         } catch (NotEnoughSnakeException e) {
 
+        }
+        //paint pause page
+        if(Main.PAUSE) {
+            g.setColor(new Color(0f, 0f, 0f, 0.5f));
+            g.fillRect(0, 0, 800, 600);
+            g.setColor(Color.WHITE);
+            g.fillRoundRect(350, 100, 100, 50, 25, 25);
         }
         
     }

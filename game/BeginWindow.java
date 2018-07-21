@@ -32,6 +32,7 @@ public class BeginWindow extends JPanel{
     private void drawBox(Graphics g, Color color, int x, int y, int width, int height) {
         g.setColor(color);
         g.fillRoundRect(x, y, width, height, 10, 10);
+        g.fill3DRect(x, y, width, height, true);
     }
     private void write(Graphics g, Color color, String word, int size, int x, int y) {
         g.setColor(color);

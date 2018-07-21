@@ -15,7 +15,7 @@ public class Main{
                                                 , IOException{
 
         JFrame jFrame = new JFrame("Snake");
-        Player player = new Player(1);
+        Player player = new Player(10);
         GameWindow gameWindow = new GameWindow(player);
         BeginWindow beginWindow = new BeginWindow();
         jFrame.addKeyListener(new GameKeyListener(player));
@@ -69,7 +69,7 @@ public class Main{
                 }
                 gameWindow.repaint();
                 try{
-                    Thread.sleep(300-Snake.speed);
+                    Thread.sleep(10);
                 }catch(InterruptedException e) {
                     
                 }

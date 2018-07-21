@@ -8,7 +8,7 @@ public class Body {
     Body(int x, int y, int dir) {
         this.x = x;
         this.y = y;
-        this.dit = dir;
+        this.dir = dir;
         show = true;
     }
 }

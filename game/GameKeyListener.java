@@ -30,38 +30,27 @@ public class GameKeyListener implements KeyListener {
             try {
                 switch(e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
-                        if(!p1.getSnake().RIGHT) {
-                            p1.getSnake().LEFT = true;
-                            p1.getSnake().RIGHT = false;
-                            p1.getSnake().UP = false;
-                            p1.getSnake().DOWN = false;
+                        if(p1.getSnake().dir!=0) {
+                            p1.getSnake().dir = 1;
                         }
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if(!p1.getSnake().LEFT) {
-                            p1.getSnake().LEFT = false;
-                            p1.getSnake().RIGHT = true;
-                            p1.getSnake().UP = false;
-                            p1.getSnake().DOWN = false;
+                        if(p1.getSnake().dir!=1) {
+                            p1.getSnake().dir = 0;
                         }
                         break;
                     case KeyEvent.VK_UP:
-                        if(!p1.getSnake().DOWN) {
-                            p1.getSnake().LEFT = false;
-                            p1.getSnake().RIGHT = false;
-                            p1.getSnake().UP = true;
-                            p1.getSnake().DOWN = false;
+                        if(p1.getSnake().dir!=3) {
+                            p1.getSnake().dir = 2;
                         }
                         break;
                     case KeyEvent.VK_DOWN:
-                        if(!p1.getSnake().UP) {
-                            p1.getSnake().LEFT = false;
-                            p1.getSnake().RIGHT = false;
-                            p1.getSnake().UP = false;
-                            p1.getSnake().DOWN = true;
+                        if(p1.getSnake().dir!=2) {
+                            p1.getSnake().dir = 3;
                         }
                         break;
                 }
+                //GameWindow.move = 0;
             } catch (NotEnoughSnakeException exception) {
                 Main.reset = true;
             }

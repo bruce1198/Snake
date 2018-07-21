@@ -3,12 +3,9 @@ package game;
 import java.awt.*;
 
 public class Snake {
-    boolean LEFT;
-    boolean RIGHT;
-    boolean UP;
-    boolean DOWN;
     Body[] bodies = new Body[100];
     int length;
+    int dir;
     Color color;
     int wait;
     int inCave;//counter
@@ -36,42 +33,27 @@ public class Snake {
                 color = Color.ORANGE;
                 break;
         }
+        dir = initDir;
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(20-20*i + init_x, init_y);
+                    bodies[i] = new Body(20-20*i + init_x, init_y, 0);
                 }
-                this.LEFT = false;
-                this.RIGHT = true;
-                this.UP = false;
-                this.DOWN = false;
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(-20+20*i + init_x, init_y);
+                    bodies[i] = new Body(-20+20*i + init_x, init_y, 1);
                 }
-                this.LEFT = true;
-                this.RIGHT = false;
-                this.UP = false;
-                this.DOWN = false;
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, -20+20*i + init_y);
+                    bodies[i] = new Body(init_x, -20+20*i + init_y, 2);
                 }
-                this.LEFT = false;
-                this.RIGHT = false;
-                this.UP = true;
-                this.DOWN = false;
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, 20-20*i + init_y);
+                    bodies[i] = new Body(init_x, 20-20*i + init_y, 3);
                 }
-                this.LEFT = false;
-                this.RIGHT = false;
-                this.UP = false;
-                this.DOWN = true;
                 break;
         }
     }
@@ -80,7 +62,7 @@ public class Snake {
         int init_x = 100 + 20 * (int)(30*Math.random());
         int init_y = 100 + 20 * (int)(20*Math.random());
         int init_color = (int)(4*Math.random());
-        this.length = 2;
+        this.length = 5;
         wait = 0;
         switch(init_color) {
             case 0:
@@ -96,47 +78,33 @@ public class Snake {
                 color = Color.ORANGE;
                 break;
         }
+        dir = initDir;
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(20 + init_x - 20*i, init_y);
+                    bodies[i] = new Body(20 + init_x - 20*i, init_y, 0);
                 }
-                this.LEFT = false;
-                this.RIGHT = true;
-                this.UP = false;
-                this.DOWN = false;
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(-20 + 20*i + init_x, init_y);
+                    bodies[i] = new Body(-20 + 20*i + init_x, init_y, 1);
                 }
-                this.LEFT = true;
-                this.RIGHT = false;
-                this.UP = false;
-                this.DOWN = false;
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, -20+20*i + init_y);
+                    bodies[i] = new Body(init_x, -20+20*i + init_y, 2);
                 }
-                this.LEFT = false;
-                this.RIGHT = false;
-                this.UP = true;
-                this.DOWN = false;
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, 20-20*i + init_y);
+                    bodies[i] = new Body(init_x, 20-20*i + init_y, 3);
                 }
-                this.LEFT = false;
-                this.RIGHT = false;
-                this.UP = false;
-                this.DOWN = true;
                 break;
         }
+        System.out.println(length);
     }
     public void getPoint() {
-        bodies[length] = new Body(-1, -1);
+        bodies[length] = new Body(-1, -1, bodies[length-1].dir);
         length++;
         Point.eggLeft--;
     }
@@ -144,46 +112,35 @@ public class Snake {
         int initDir = (int)(3*Math.random());
         int init_x = x;
         int init_y = y;
+        dir = initDir;
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
                     bodies[i].x = 20 - 20*i + init_x;
                     bodies[i].y = init_y;
+                    bodies[i].dir = 0;
                 }
-                this.LEFT = false;
-                this.RIGHT = true;
-                this.UP = false;
-                this.DOWN = false;
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
                     bodies[i].x = -20 + 20*i + init_x;
                     bodies[i].y = init_y;
+                    bodies[i].dir = 1;
                 }
-                this.LEFT = true;
-                this.RIGHT = false;
-                this.UP = false;
-                this.DOWN = false;
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
                     bodies[i].x = init_x;
                     bodies[i].y = -20+20*i + init_y;
+                    bodies[i].dir = 2;
                 }
-                this.LEFT = false;
-                this.RIGHT = false;
-                this.UP = true;
-                this.DOWN = false;
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
                     bodies[i].x = init_x;
                     bodies[i].y = 20-20*i + init_y;
+                    bodies[i].dir = 3;
                 }
-                this.LEFT = false;
-                this.RIGHT = false;
-                this.UP = false;
-                this.DOWN = true;
                 break;
         }
     }

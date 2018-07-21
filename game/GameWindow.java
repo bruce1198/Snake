@@ -14,6 +14,7 @@ public class GameWindow extends JPanel {
     SnakeCave[] snakeCaves;
     int numberOfPoint;
     int numberOfCave;
+    static int move;
     GameWindow(Player player) {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.WHITE);
@@ -21,28 +22,53 @@ public class GameWindow extends JPanel {
         numberOfPoint = 0;
         numberOfCave = 0;
         points = null;
+        move = 0;
     }
     public void moveSnake() throws NotEnoughSnakeException, 
                                     ArrayIndexOutOfBoundsException{
         if(p1.getSnake().wait==0) {//wait for two secs
             //move snake
-            for(int i=p1.getSnake().length-1; i>=1; i--) {
-                p1.getSnake().bodies[i].x = p1.getSnake().bodies[i-1].x;
-                p1.getSnake().bodies[i].y = p1.getSnake().bodies[i-1].y;
-                p1.getSnake().bodies[i].show = p1.getSnake().bodies[i-1].show;
+            move++;
+            for(int i=0; i<p1.getSnake().length; i++) {
+                switch(p1.getSnake().bodies[i].dir) {
+                    case 0: //right
+                        p1.getSnake().bodies[i].x++;
+                        break;
+                    case 1: //left
+                        p1.getSnake().bodies[i].x--;
+                        break;
+                    case 2: //up
+                        p1.getSnake().bodies[i].y--;
+                        break;
+                    case 3: //down
+                        p1.getSnake().bodies[i].y++;
+                        break;
+                }
             }
-            if(p1.getSnake().RIGHT) {
-                p1.getSnake().bodies[0].x += 20;
+            
+            if(move==20) {
+                for(int i=p1.getSnake().length-1; i>=1; i--) {
+                    //p1.getSnake().bodies[i].x = p1.getSnake().bodies[i-1].x;
+                    //p1.getSnake().bodies[i].y = p1.getSnake().bodies[i-1].y;
+                    p1.getSnake().bodies[i].dir = p1.getSnake().bodies[i-1].dir;
+                    p1.getSnake().bodies[i].show = p1.getSnake().bodies[i-1].show;
+                }
+                p1.getSnake().bodies[0].dir = p1.getSnake().dir;
+                move = 0;
+            }
+            //System.out.println(move);
+            /*if(p1.getSnake().RIGHT) {
+                p1.getSnake().bodies[0].x ++;
             }
             else if(p1.getSnake().LEFT) {
-                p1.getSnake().bodies[0].x -= 20;
+                p1.getSnake().bodies[0].x --;
             }
             else if(p1.getSnake().UP) {
-                p1.getSnake().bodies[0].y -= 20;
+                p1.getSnake().bodies[0].y --;
             }
             else if(p1.getSnake().DOWN) {
-                p1.getSnake().bodies[0].y += 20;
-            }
+                p1.getSnake().bodies[0].y ++;
+            }*/
         }
         else {
             p1.getSnake().wait--;

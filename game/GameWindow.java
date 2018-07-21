@@ -10,12 +10,15 @@ public class GameWindow extends JPanel {
     static final long serialVersionUID = 1;
     Player p1;
     Point[] points;
-    Wall[] walls;
+    public static Wall[] walls;
     SnakeCave[] snakeCaves;
     int numberOfPoint;
     int numberOfCave;
     int move;
     static boolean valid;
+    //picture
+    Image map;
+    Image wall;
     GameWindow(Player player) {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.WHITE);
@@ -25,6 +28,24 @@ public class GameWindow extends JPanel {
         points = null;
         move = 0;
         valid = true;
+        Point.eggLeft = 2;
+        //put wall
+        putWall(Wall.getWalls());
+        putCave(new SnakeCave());
+        putCave(new SnakeCave());
+        //put egg
+        putPoint(new Point());
+        putPoint(new Point());
+        try {
+            map = ImageIO.read(new File(".\\source\\map.png"));
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+        try {
+            wall = ImageIO.read(new File(".\\source\\wall.png"));
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
     }
     public void moveSnake() throws NotEnoughSnakeException, 
                                     ArrayIndexOutOfBoundsException{
@@ -113,12 +134,7 @@ public class GameWindow extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         //background
-        try {
-            Image map = ImageIO.read(new File(".\\source\\map.png"));
-            g.drawImage(map, 0, 0, map.getWidth(null), map.getHeight(null), null);
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
+        g.drawImage(map, 0, 0, map.getWidth(null), map.getHeight(null), null);
         //score:
         g.setColor(Color.YELLOW);
         g.fillArc(740, 24, 20, 20, 0, 360);
@@ -133,7 +149,12 @@ public class GameWindow extends JPanel {
         for(int i=0; i<Wall.WALL_NUMBER; i++) {
             g.setColor(Color.GREEN);
             try {
-                g.fillRect(walls[i].x, walls[i].y, walls[i].width, walls[i].height);
+                for(int row=0; row<walls[i].height; row++) {
+                    for(int col=0; col<walls[i].width; col++) {
+                        g.fillRect(walls[i].x+20*col, walls[i].y+20*row, 20, 20);
+                        g.drawImage(wall, walls[i].x+20*col, walls[i].y+20*row, 20, 20, null);
+                    }
+                }
             } catch (NullPointerException e) {
 
             }
@@ -190,6 +211,7 @@ public class GameWindow extends JPanel {
         }
         points[numberOfPoint] = point;
         numberOfPoint++;
+        System.out.println(numberOfPoint);
     }
     public void putWall(Wall[] walls) {
         this.walls = walls;
@@ -203,10 +225,14 @@ public class GameWindow extends JPanel {
     }
     public boolean isHit() throws NotEnoughSnakeException{
         for(int i=0; i<Wall.WALL_NUMBER; i++) { //hit wall
-            if(p1.getSnake().bodies[0].x>=walls[i].x && p1.getSnake().bodies[0].x<walls[i].x+walls[i].width 
-                && p1.getSnake().bodies[0].y>=walls[i].y && p1.getSnake().bodies[0].y<walls[i].y+walls[i].height
-                && p1.getSnake().bodies[0].show)
-                return true;
+            for(int row=0; row<walls[i].height; row++) {
+                for(int col=0; col<walls[i].width; col++) {
+                    if(p1.getSnake().bodies[0].x==walls[i].x+20*col 
+                        && p1.getSnake().bodies[0].y==walls[i].y+20*row
+                        && p1.getSnake().bodies[0].show)
+                        return true;
+                }
+            }
         }
         for(int i=1; i<p1.getSnake().length; i++) {
             if(p1.getSnake().bodies[0].x==p1.getSnake().bodies[i].x

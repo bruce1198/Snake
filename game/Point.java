@@ -9,9 +9,26 @@ public class Point {
     int x;
     int y;
     Point() {
-        int x = 20 * (int)(30*Math.random());
-        int y = 20 * (int)(20*Math.random());
-        this.x = 100+x;
-        this.y = 100+y;
+        int x, y;
+        while(true) {
+            x = 100 + 20 * (int)(30*Math.random());
+            y = 100 + 20 * (int)(20*Math.random());
+            if(isValid(x, y))
+                break;
+        }
+        this.x = x;
+        this.y = y;
+    }
+    private boolean isValid(int x, int y) {
+        Wall[] walls = GameWindow.walls;
+        for(int i=0; i<Wall.WALL_NUMBER; i++) {
+            for(int row=0; row<walls[i].height; row++) {
+                for(int col=0; col<walls[i].width; col++) {
+                    if(x==walls[i].x+20*col && y==walls[i].y+20*row)
+                        return false;
+                }
+            }
+        }
+        return true;
     }
 }

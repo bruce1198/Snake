@@ -11,4 +11,9 @@ public class Body {
         this.dir = dir;
         show = true;
     }
+    Body(int x, int y, boolean show) {
+        this.x = x;
+        this.y = y;
+        show = false;
+    }
 }

@@ -95,12 +95,12 @@ public class GameWindow extends JPanel {
             //System.out.println("head go in cave");
             p1.getSnake().bodies[0].show=false;
             p1.getSnake().inCave = 100;
-
+            move = 0;
         }
         //tail go in cave
         else if(!p1.getSnake().isInCave && !p1.getSnake().bodies[p1.getSnake().length-1].show && p1.getSnake().wait==0  && !p1.getSnake().bodies[0].show) {
             p1.getSnake().isInCave = true;
-            p1.getSnake().inCave = 10;
+            p1.getSnake().inCave = 200;
             //System.out.println("tail go in cave");
         }
         //count two secs

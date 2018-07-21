@@ -61,7 +61,7 @@ public class Main{
                 if(Point.eggLeft==0) {
                     put++;
                 }
-                if(put==10) {
+                if(put==200) {
                     gameWindow.putPoint(new Point());
                     gameWindow.putPoint(new Point());
                     Point.eggLeft = 2;

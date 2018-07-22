@@ -35,10 +35,6 @@ public class Wall {
     }
     public static Wall[] getWallOne() {
         Wall[] walls = new Wall[]{
-            new Wall(0, 0, 1, 30),
-            new Wall(0, 0, 40, 1),
-            new Wall(0, 580, 40, 1),
-            new Wall(780, 0, 1, 30),
             new Wall(160, 160, 1, 10),
             new Wall(160, 360, 8, 1),
             new Wall(480, 100, 1, 6),
@@ -46,16 +42,12 @@ public class Wall {
             new Wall(600, 300, 1, 10),
             new Wall(500, 500, 6, 1)
         };
-        WALL_NUMBER = 10;
+        WALL_NUMBER = 6;
         WALL_KIND = 1;
         return walls;
     }
     public static Wall[] getWallTwo() {
         Wall[] walls = new Wall[]{
-            new Wall(0, 0, 1, 30),
-            new Wall(0, 0, 40, 1),
-            new Wall(0, 580, 40, 1),
-            new Wall(780, 0, 1, 30),
             new Wall(160, 160, 1, 10),
             new Wall(160, 360, 8, 1),
             new Wall(480, 100, 1, 6),
@@ -63,16 +55,12 @@ public class Wall {
             new Wall(600, 300, 1, 10),
             new Wall(500, 500, 6, 1)
         };
-        WALL_NUMBER = 10;
+        WALL_NUMBER = 6;
         WALL_KIND = 2;
         return walls;
     }
     public static Wall[] getWallThree() {
         Wall[] walls = new Wall[]{
-            new Wall(0, 0, 1, 30),
-            new Wall(0, 0, 40, 1),
-            new Wall(0, 580, 40, 1),
-            new Wall(780, 0, 1, 30),
             new Wall(160, 160, 1, 10),
             new Wall(160, 360, 8, 1),
             new Wall(480, 100, 1, 6),
@@ -80,16 +68,12 @@ public class Wall {
             new Wall(600, 300, 1, 10),
             new Wall(500, 500, 6, 1)
         };
-        WALL_NUMBER = 10;
+        WALL_NUMBER = 6;
         WALL_KIND = 3;
         return walls;
     }
     public static Wall[] getWallFour() {
         Wall[] walls = new Wall[]{
-            new Wall(0, 0, 1, 30),
-            new Wall(0, 0, 40, 1),
-            new Wall(0, 580, 40, 1),
-            new Wall(780, 0, 1, 30),
             new Wall(160, 160, 1, 10),
             new Wall(160, 360, 8, 1),
             new Wall(480, 100, 1, 6),
@@ -97,7 +81,7 @@ public class Wall {
             new Wall(600, 300, 1, 10),
             new Wall(500, 500, 6, 1)
         };
-        WALL_NUMBER = 10;
+        WALL_NUMBER = 6;
         WALL_KIND = 4;
         return walls;
     }

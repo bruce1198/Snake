@@ -37,10 +37,8 @@ public class Main{
         clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();*/
-        //init(gameWindow);
         int put = 0;
         while(true) {
-            //System.out.println();
             if(window==1) {
                 jFrame.setContentPane(beginWindow);
                 jFrame.setVisible(true);
@@ -71,21 +69,11 @@ public class Main{
                 }
                 gameWindow.repaint();
                 try{
-                    Thread.sleep(10);
+                    Thread.sleep(5);
                 }catch(InterruptedException e) {
                     
                 }
             }
         }
-    }
-    private static void init(GameWindow gameWindow) {
-        //put wall
-        gameWindow.putWall(Wall.getWalls());
-        gameWindow.putCave(new SnakeCave());
-        gameWindow.putCave(new SnakeCave());
-        //put egg
-        gameWindow.putPoint(new Point());
-        gameWindow.putPoint(new Point());
-        Point.eggLeft = 2;
     }
 }

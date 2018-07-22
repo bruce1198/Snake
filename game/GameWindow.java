@@ -19,6 +19,7 @@ public class GameWindow extends JPanel {
     //picture
     Image map;
     Image wall;
+    Image cave;
     GameWindow(Player player) {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.WHITE);
@@ -31,6 +32,9 @@ public class GameWindow extends JPanel {
         Point.eggLeft = 2;
         //put wall
         putWall(Wall.getWalls());
+        //put caves
+        putCave(new SnakeCave());
+        putCave(new SnakeCave());
         putCave(new SnakeCave());
         putCave(new SnakeCave());
         //put egg
@@ -43,6 +47,11 @@ public class GameWindow extends JPanel {
         }
         try {
             wall = ImageIO.read(new File(".\\source\\wall.png"));
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+        try {
+            cave = ImageIO.read(new File(".\\source\\cave.png"));
         } catch (Exception e) {
             System.out.println("Error");
         }
@@ -73,10 +82,27 @@ public class GameWindow extends JPanel {
                 for(int i=p1.getSnake().length-1; i>=1; i--) {
                     p1.getSnake().bodies[i].dir = p1.getSnake().bodies[i-1].dir;
                     p1.getSnake().bodies[i].show = p1.getSnake().bodies[i-1].show;
+                    if(p1.getSnake().bodies[i].x>=780)
+                        p1.getSnake().bodies[i].x = p1.getSnake().bodies[i].x%780-20;
+                    if(p1.getSnake().bodies[i].x<=-0)
+                        p1.getSnake().bodies[i].x = p1.getSnake().bodies[i].x+800;
+                    if(p1.getSnake().bodies[i].y>=580)
+                        p1.getSnake().bodies[i].y = p1.getSnake().bodies[i].y%580-20;
+                    if(p1.getSnake().bodies[i].y<=0)
+                        p1.getSnake().bodies[i].y = p1.getSnake().bodies[i].y+600;
                 }
+                if(p1.getSnake().bodies[0].x>=780)
+                    p1.getSnake().bodies[0].x = p1.getSnake().bodies[0].x%780-20;
+                if(p1.getSnake().bodies[0].x<=0)
+                    p1.getSnake().bodies[0].x = p1.getSnake().bodies[0].x+800;
+                if(p1.getSnake().bodies[0].y>=580)
+                    p1.getSnake().bodies[0].y = p1.getSnake().bodies[0].y%580-20;
+                if(p1.getSnake().bodies[0].y<=0)
+                    p1.getSnake().bodies[0].y = p1.getSnake().bodies[0].y+600;
                 p1.getSnake().bodies[0].dir = p1.getSnake().dir;
                 move = 0;
                 valid = true;
+            //System.out.println(p1.getSnake().bodies[0].x+", "+p1.getSnake().bodies[0].y);
             }
         }
         else {
@@ -135,6 +161,8 @@ public class GameWindow extends JPanel {
         super.paint(g);
         //background
         g.drawImage(map, 0, 0, map.getWidth(null), map.getHeight(null), null);
+        g.setColor(new Color(0f, 0f, 0f, 0.5f));
+        g.fillRect(0, 0, 800, 600);
         //score:
         g.setColor(Color.YELLOW);
         g.fillArc(740, 24, 20, 20, 0, 360);
@@ -175,7 +203,7 @@ public class GameWindow extends JPanel {
             for(int i=0; i<numberOfCave; i++) {
                 g.setColor(SnakeCave.color);
                 try{
-                    g.fillArc(snakeCaves[i].x, snakeCaves[i].y, 20, 20, 0, 360);
+                    g.drawImage(cave, snakeCaves[i].x-20, snakeCaves[i].y-60, 60, 80, null);
                 }catch(NullPointerException e) {
 
                 }
@@ -189,6 +217,22 @@ public class GameWindow extends JPanel {
                     if(p1.getSnake().bodies[i].x!=-1 && p1.getSnake().bodies[i].x != -1 
                         && p1.getSnake().bodies[i].show) {
                         g.fillArc(p1.getSnake().bodies[i].x, p1.getSnake().bodies[i].y, 20, 20, 0, 360);
+                        if(p1.getSnake().bodies[i].x>=780
+                            && p1.getSnake().bodies[i].show) {
+                            g.fillArc((p1.getSnake().bodies[i].x%780)-20, p1.getSnake().bodies[i].y, 20, 20, 0, 360);
+                        }
+                        if(p1.getSnake().bodies[i].x<=0
+                            && p1.getSnake().bodies[i].show) {
+                            g.fillArc(p1.getSnake().bodies[i].x+800, p1.getSnake().bodies[i].y, 20, 20, 0, 360);
+                        }
+                        if(p1.getSnake().bodies[i].y>=580
+                            && p1.getSnake().bodies[i].show) {
+                            g.fillArc(p1.getSnake().bodies[i].x, p1.getSnake().bodies[i].y%580-20, 20, 20, 0, 360);
+                        }
+                        if(p1.getSnake().bodies[i].y<=0
+                            && p1.getSnake().bodies[i].show) {
+                            g.fillArc(p1.getSnake().bodies[i].y+600, p1.getSnake().bodies[i].y, 20, 20, 0, 360);
+                        }
                     }
                 }
             }
@@ -211,10 +255,10 @@ public class GameWindow extends JPanel {
         }
         points[numberOfPoint] = point;
         numberOfPoint++;
-        System.out.println(numberOfPoint);
+        //System.out.println(numberOfPoint);
     }
     public void putWall(Wall[] walls) {
-        this.walls = walls;
+        GameWindow.walls = walls;
     }
     public void putCave(SnakeCave cave) {
         if(snakeCaves==null) {
@@ -255,7 +299,8 @@ public class GameWindow extends JPanel {
         if(points!=null) {
             for(int i=0; i<numberOfPoint; i++) {
                 try{
-                    if(p1.getSnake().bodies[0].x==points[i].x && p1.getSnake().bodies[0].y==points[i].y) {
+                    if(p1.getSnake().bodies[0].x==points[i].x && p1.getSnake().bodies[0].y==points[i].y
+                        && p1.getSnake().bodies[0].show) {
                         points[i] = null;
                         //System.out.println(i);
                         return true;

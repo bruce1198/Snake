@@ -3,49 +3,70 @@ package game;
 import java.awt.*;
 
 public class SnakeCave {
-    //public static int caveLeft = 2;
-    //public static int put = 10;
-    public static Color color = Color.BLACK;
+    public static int CAVE_NUMBER = 4;
+    public static int CAVE_KIND = 1;
     int x;
     int y;
-    public static SnakeCave[] all = new SnakeCave[4];
-    public static int number = 0;
-    SnakeCave() {
-        int x, y;
-        while(true) {
-            x = 100 + 20 * (int)(30*Math.random());
-            y = 100 + 20 * (int)(20*Math.random());
-            if(isValid(x, y)) {
-                SnakeCave.all[SnakeCave.number] = new SnakeCave(x, y);
-                SnakeCave.number++;
-                break;
-            }
-        }
-        System.out.println("Hi");
-        System.out.println(SnakeCave.number+": "+x+", "+y);
-        this.x = x;
-        this.y = y;
-    }
     SnakeCave(int x, int y) {
     	this.x = x;
     	this.y = y;
     }
-    private boolean isValid(int x, int y) {
-        Wall[] walls = GameWindow.walls;
-        /*for(int i=0; i<Wall.WALL_NUMBER; i++) {
-            for(int row=0; row<walls[i].height; row++) {
-                for(int col=0; col<walls[i].width; col++) {
-                    if(x>=walls[i].x+20*col-60 && x<=walls[i].x+20*col+60 ||
-                        y>=walls[i].y+20*row-60 && y<=walls[i].y+20*row+60)
-                        return false;
-                }
-            }
+    public static SnakeCave[] getSnakeCaves() {
+        switch(Wall.WALL_KIND) {
+            case 1:
+                return getSnakeCaveOne();
+            case 2:
+                return getSnakeCaveTwo();
+            case 3:
+                return getSnakeCaveThree();
+            case 4:
+                return getSnakeCaveFour();
         }
-        for(int i=0; i<SnakeCave.number; i++) {
-            if(x>=SnakeCave.all[i].x-60 && x<=SnakeCave.all[i].x+60 ||
-                y>=SnakeCave.all[i].y-60 && y<=SnakeCave.all[i].y+60)
-                return false;
-        }*/
-        return true;
+        return null;
+    }
+    public static SnakeCave[] getSnakeCaveOne() {
+        SnakeCave[] SnakeCaves = new SnakeCave[]{
+            new SnakeCave(60, 160),
+            new SnakeCave(160, 500),
+            new SnakeCave(680, 100),
+            new SnakeCave(480, 440)
+        };
+        CAVE_NUMBER = 4;
+        CAVE_KIND = 1;
+        return SnakeCaves;
+    }
+    public static SnakeCave[] getSnakeCaveTwo() {
+        SnakeCave[] SnakeCaves = new SnakeCave[]{
+            new SnakeCave(540, 120),
+            new SnakeCave(240, 580),
+            new SnakeCave(500, 400)
+        };
+        CAVE_NUMBER = 3;
+        CAVE_KIND = 2;
+        return SnakeCaves;
+    }
+    public static SnakeCave[] getSnakeCaveThree() {
+        SnakeCave[] SnakeCaves = new SnakeCave[]{
+            new SnakeCave(60, 200),
+            new SnakeCave(60, 400),
+            new SnakeCave(720, 200),
+            new SnakeCave(720, 400),
+            new SnakeCave(400, 200),
+            new SnakeCave(400, 400)
+        };
+        CAVE_NUMBER = 6;
+        CAVE_KIND = 3;
+        return SnakeCaves;
+    }
+    public static SnakeCave[] getSnakeCaveFour() {
+        SnakeCave[] SnakeCaves = new SnakeCave[]{
+            new SnakeCave(400, 160),
+            new SnakeCave(400, 400),
+            new SnakeCave(40, 400),
+            new SnakeCave(740, 400)
+        };
+        CAVE_NUMBER = 4;
+        CAVE_KIND = 4;
+        return SnakeCaves;
     }
 }

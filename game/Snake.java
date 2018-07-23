@@ -11,6 +11,51 @@ public class Snake {
     int inCave;//counter
     boolean isInCave;
     public static int speed = 100;
+    Snake(int x, int y, int dir) {
+        int init_x = x;
+        int init_y = y;
+        int init_color = (int)(4*Math.random());
+        this.length = 2;
+        this.dir = dir;
+        wait=0;
+        isInCave = false;
+        switch(init_color) {
+            case 0:
+                color = Color.RED;
+                break;
+            case 1:
+                color = Color.BLUE;
+                break;
+            case 2:
+                color = Color.GREEN;
+                break;
+            case 3:
+                color = Color.ORANGE;
+                break;
+        }
+        switch(dir) {
+            case 0: //right
+                for(int i=0; i<length; i++) {
+                    bodies[i] = new Body(1-20*i + init_x, init_y, 0);
+                }
+                break;
+            case 1: //left
+                for(int i=0; i<length; i++) {
+                    bodies[i] = new Body(-1+20*i + init_x, init_y, 1);
+                }
+                break;
+            case 2: // up
+                for(int i=0; i<length; i++) {
+                    bodies[i] = new Body(init_x, -1+20*i + init_y, 2);
+                }
+                break;
+            case 3: // down
+                for(int i=0; i<length; i++) {
+                    bodies[i] = new Body(init_x, 1-20*i + init_y, 3);
+                }
+                break;
+        }
+    }
     Snake(int x, int y) {
         int initDir = (int)(3*Math.random());
         int init_x = x;

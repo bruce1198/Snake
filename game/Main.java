@@ -13,20 +13,32 @@ public class Main{
     public static int window = 1;
     public static void main(String[] args) throws InterruptedException
                                                 , FileNotFoundException
-                                                , IOException{
+                                                , IOException
+                                                , LineUnavailableException{
 
         JFrame jFrame = new JFrame("Snake");
         Player player = new Player(5);
-        GameWindow gameWindow = new GameWindow(player);
+        Player player2 = new Player(5, 2);
+        GameWindow gameWindow = new GameWindow(player, player2);
         BeginWindow beginWindow = new BeginWindow();
-        jFrame.addKeyListener(new GameKeyListener(player));
+        jFrame.addKeyListener(new GameKeyListener(player, player2));
         jFrame.setContentPane(beginWindow);
+        //jFrame.setLocation(350, 100);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setResizable(false);
         jFrame.pack();
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setVisible(true);
+        
+        /*JButton resume = new JButton();
+        resume.setLayout(null);
+        resume.setBounds(200, 200, 400, 250);
+        resume.setIcon(new ImageIcon(ImageIO.read(new File(".\\source\\picture\\button.png"))));
+        resume.setVisible(false);
+        jFrame.add(resume);*/
 
         //set icon
-        BufferedImage icon = ImageIO.read(new File(".\\source\\icon.png"));
+        BufferedImage icon = ImageIO.read(new File(".\\source\\picture\\icon.png"));
         jFrame.setIconImage(icon);
         jFrame.setVisible(true);
 
@@ -52,8 +64,16 @@ public class Main{
             else if(window==2) {
                 jFrame.setContentPane(gameWindow);
                 jFrame.setVisible(true);
+                /*if(PAUSE) {
+                    System.out.println("hi");
+                    resume.setVisible(true);
+                }
+                else 
+                    resume.setVisible(false);*/
                 try {
-                    if(!PAUSE) gameWindow.moveSnake();
+                    if(!PAUSE) gameWindow.moveSnake(player.getSnake(), 0);
+                    if(!PAUSE) gameWindow.moveSnake(player2.getSnake(), 1);
+                    //if(!PAUSE) gameWindow.moveSnake2();
                 } catch (Exception e) {
                     window = 2;
                 }

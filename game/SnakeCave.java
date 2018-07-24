@@ -26,20 +26,19 @@ public class SnakeCave {
     }
     public static SnakeCave[] getSnakeCaveOne() {
         SnakeCave[] SnakeCaves = new SnakeCave[]{
-            new SnakeCave(60, 160),
-            new SnakeCave(160, 500),
-            new SnakeCave(680, 100),
-            new SnakeCave(480, 440)
+            new SnakeCave(3*GameWindow.unit, 14*GameWindow.unit),
+            new SnakeCave(36*GameWindow.unit, 14*GameWindow.unit),
+            new SnakeCave(20*GameWindow.unit, 14*GameWindow.unit)
         };
-        CAVE_NUMBER = 4;
+        CAVE_NUMBER = 3;
         CAVE_KIND = 1;
         return SnakeCaves;
     }
     public static SnakeCave[] getSnakeCaveTwo() {
         SnakeCave[] SnakeCaves = new SnakeCave[]{
-            new SnakeCave(540, 120),
-            new SnakeCave(240, 580),
-            new SnakeCave(500, 400)
+            new SnakeCave(27*GameWindow.unit, 6*GameWindow.unit),
+            new SnakeCave(8*GameWindow.unit, 7*GameWindow.unit),
+            new SnakeCave(25*GameWindow.unit, 18*GameWindow.unit)
         };
         CAVE_NUMBER = 3;
         CAVE_KIND = 2;
@@ -47,25 +46,23 @@ public class SnakeCave {
     }
     public static SnakeCave[] getSnakeCaveThree() {
         SnakeCave[] SnakeCaves = new SnakeCave[]{
-            new SnakeCave(60, 200),
-            new SnakeCave(60, 400),
-            new SnakeCave(720, 200),
-            new SnakeCave(720, 400),
-            new SnakeCave(400, 200),
-            new SnakeCave(400, 400)
+            new SnakeCave(5*GameWindow.unit, 7*GameWindow.unit),
+            new SnakeCave(5*GameWindow.unit, 22*GameWindow.unit),
+            new SnakeCave(34*GameWindow.unit, 7*GameWindow.unit),
+            new SnakeCave(34*GameWindow.unit, 22*GameWindow.unit),
+            new SnakeCave(20*GameWindow.unit, 15*GameWindow.unit)
         };
-        CAVE_NUMBER = 6;
+        CAVE_NUMBER = 5;
         CAVE_KIND = 3;
         return SnakeCaves;
     }
     public static SnakeCave[] getSnakeCaveFour() {
         SnakeCave[] SnakeCaves = new SnakeCave[]{
-            new SnakeCave(400, 160),
-            new SnakeCave(400, 400),
-            new SnakeCave(40, 400),
-            new SnakeCave(740, 400)
+            new SnakeCave(19*GameWindow.unit, 12*GameWindow.unit),
+            new SnakeCave(4*GameWindow.unit, 9*GameWindow.unit),
+            new SnakeCave(34*GameWindow.unit, 9*GameWindow.unit)
         };
-        CAVE_NUMBER = 4;
+        CAVE_NUMBER = 3;
         CAVE_KIND = 4;
         return SnakeCaves;
     }

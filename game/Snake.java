@@ -36,22 +36,22 @@ public class Snake {
         switch(dir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(1-20*i + init_x, init_y, 0);
+                    bodies[i] = new Body(-GameWindow.unit*i + init_x, init_y, 0);
                 }
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(-1+20*i + init_x, init_y, 1);
+                    bodies[i] = new Body(GameWindow.unit*i + init_x, init_y, 1);
                 }
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, -1+20*i + init_y, 2);
+                    bodies[i] = new Body(init_x, GameWindow.unit*i + init_y, 2);
                 }
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, 1-20*i + init_y, 3);
+                    bodies[i] = new Body(init_x, -GameWindow.unit*i + init_y, 3);
                 }
                 break;
         }
@@ -79,33 +79,34 @@ public class Snake {
                 break;
         }
         dir = initDir;
+        //System.out.println(dir);
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(1-20*i + init_x, init_y, 0);
+                    bodies[i] = new Body(2-GameWindow.unit*i + init_x, init_y, 0);
                 }
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(-1+20*i + init_x, init_y, 1);
+                    bodies[i] = new Body(-2+GameWindow.unit*i + init_x, init_y, 1);
                 }
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, -1+20*i + init_y, 2);
+                    bodies[i] = new Body(init_x, -2+GameWindow.unit*i + init_y, 2);
                 }
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, 1-20*i + init_y, 3);
+                    bodies[i] = new Body(init_x, 2-GameWindow.unit*i + init_y, 3);
                 }
                 break;
         }
     }
     Snake() {
         int initDir = (int)(3*Math.random());
-        int init_x = 100 + 20 * (int)(30*Math.random());
-        int init_y = 100 + 20 * (int)(20*Math.random());
+        int init_x = 100 + GameWindow.unit * (int)(30*Math.random());
+        int init_y = 100 + GameWindow.unit * (int)(GameWindow.unit*Math.random());
         int init_color = (int)(4*Math.random());
         this.length = 2;
         wait = 0;
@@ -127,22 +128,22 @@ public class Snake {
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(20 + init_x - 20*i, init_y, 0);
+                    bodies[i] = new Body(GameWindow.unit + init_x - GameWindow.unit*i, init_y, 0);
                 }
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(-20 + 20*i + init_x, init_y, 1);
+                    bodies[i] = new Body(-GameWindow.unit + GameWindow.unit*i + init_x, init_y, 1);
                 }
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, -20+20*i + init_y, 2);
+                    bodies[i] = new Body(init_x, -GameWindow.unit+GameWindow.unit*i + init_y, 2);
                 }
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, 20-20*i + init_y, 3);
+                    bodies[i] = new Body(init_x, GameWindow.unit-GameWindow.unit*i + init_y, 3);
                 }
                 break;
         }
@@ -152,16 +153,16 @@ public class Snake {
         //System.out.println("Get");
         switch(bodies[length-1].dir) {
             case 0:
-                bodies[length] = new Body(bodies[length-1].x-20, bodies[length-1].y, bodies[length-1].dir);
+                bodies[length] = new Body(bodies[length-1].x-GameWindow.unit, bodies[length-1].y, bodies[length-1].dir);
                 break;
             case 1:
-                bodies[length] = new Body(bodies[length-1].x+20, bodies[length-1].y, bodies[length-1].dir);  
+                bodies[length] = new Body(bodies[length-1].x+GameWindow.unit, bodies[length-1].y, bodies[length-1].dir);  
                 break;  
             case 2:
-                bodies[length] = new Body(bodies[length-1].x, bodies[length-1].y+20, bodies[length-1].dir);
+                bodies[length] = new Body(bodies[length-1].x, bodies[length-1].y+GameWindow.unit, bodies[length-1].dir);
                 break;
             case 3:
-                bodies[length] = new Body(bodies[length-1].x, bodies[length-1].y-20, bodies[length-1].dir);
+                bodies[length] = new Body(bodies[length-1].x, bodies[length-1].y-GameWindow.unit, bodies[length-1].dir);
                 break;
         }
         length++;
@@ -175,14 +176,14 @@ public class Snake {
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i].x = 1 - 20*i + init_x;
+                    bodies[i].x = 2-GameWindow.unit*i + init_x;
                     bodies[i].y = init_y;
                     bodies[i].dir = 0;
                 }
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i].x = -1 + 20*i + init_x;
+                    bodies[i].x = -2+GameWindow.unit*i + init_x;
                     bodies[i].y = init_y;
                     bodies[i].dir = 1;
                 }
@@ -190,17 +191,19 @@ public class Snake {
             case 2: // up
                 for(int i=0; i<length; i++) {
                     bodies[i].x = init_x;
-                    bodies[i].y = -1+20*i + init_y;
+                    bodies[i].y = -2+GameWindow.unit*i + init_y;
                     bodies[i].dir = 2;
                 }
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
                     bodies[i].x = init_x;
-                    bodies[i].y = 1-20*i + init_y;
+                    bodies[i].y = 2-GameWindow.unit*i + init_y;
                     bodies[i].dir = 3;
                 }
                 break;
         }
+        //System.out.println(bodies[0].x+", "+ bodies[0].y);
+
     }
 }

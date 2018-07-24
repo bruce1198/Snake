@@ -32,6 +32,10 @@ public class GameKeyListener implements KeyListener {
             System.out.println("Can't get the music.");
         }
     }
+    public void set(Player p, Player p2) {
+    	this.p1 = p;
+    	this.p2 = p2;
+    }
     @Override
     public void keyPressed(KeyEvent e) {
         if(Main.window==1) {
@@ -39,6 +43,7 @@ public class GameKeyListener implements KeyListener {
                 case KeyEvent.VK_ENTER:
                     if(BeginWindow.choice==0)
                         Main.window = 2;
+                    	Main.PAUSE = false;
                     break;
                 case KeyEvent.VK_UP:
                     if(BeginWindow.choice!=0) {
@@ -55,64 +60,65 @@ public class GameKeyListener implements KeyListener {
             try {
                 switch(e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
-                        if(p1.getSnake().dir!=0 && GameWindow.valid[0]) {
+                        if(!Main.PAUSE && p1.getSnake().dir!=0 && GameWindow.valid[0]) {
                             p1.getSnake().dir = 1;
-                            play(1);
+                            //play(1);
                             GameWindow.valid[0] = false;
                         }
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if(p1.getSnake().dir!=1 && GameWindow.valid[0]) {
+                        if(!Main.PAUSE && p1.getSnake().dir!=1 && GameWindow.valid[0]) {
                             p1.getSnake().dir = 0;
-                            play(2);
+                            //play(2);
                             GameWindow.valid[0] = false;
                         }
                         break;
                     case KeyEvent.VK_UP:
-                        if(p1.getSnake().dir!=3 && GameWindow.valid[0]) {
+                        if(!Main.PAUSE && p1.getSnake().dir!=3 && GameWindow.valid[0]) {
                             p1.getSnake().dir = 2;
-                            play(3);
+                            //play(3);
                             GameWindow.valid[0] = false;
                         }
                         break;
                     case KeyEvent.VK_DOWN:
-                        if(p1.getSnake().dir!=2 && GameWindow.valid[0]) {
+                        if(!Main.PAUSE && p1.getSnake().dir!=2 && GameWindow.valid[0]) {
                             p1.getSnake().dir = 3;
-                            play(4);
+                            //play(4);
                             GameWindow.valid[0] = false;
                         }
                         break;
                     //player2
                     case KeyEvent.VK_A:
-                        if(p2.getSnake().dir!=0 && GameWindow.valid[1]) {
+                        if(!Main.PAUSE && p2.getSnake().dir!=0 && GameWindow.valid[1]) {
                             p2.getSnake().dir = 1;
                             GameWindow.valid[1] = false;
                         }
                         break;
                     case KeyEvent.VK_D:
-                        if(p2.getSnake().dir!=1 && GameWindow.valid[1]) {
+                        if(!Main.PAUSE && p2.getSnake().dir!=1 && GameWindow.valid[1]) {
                             p2.getSnake().dir = 0;
                             GameWindow.valid[1] = false;
                         }
                         break;
                     case KeyEvent.VK_W:
-                        if(p2.getSnake().dir!=3 && GameWindow.valid[1]) {
+                        if(!Main.PAUSE && p2.getSnake().dir!=3 && GameWindow.valid[1]) {
                             p2.getSnake().dir = 2;
                             GameWindow.valid[1] = false;
                         }
                         break;
                     case KeyEvent.VK_S:
-                        if(p2.getSnake().dir!=2 && GameWindow.valid[1]) {
+                        if(!Main.PAUSE && p2.getSnake().dir!=2 && GameWindow.valid[1]) {
                             p2.getSnake().dir = 3;
                             GameWindow.valid[1] = false;
                         }
                         break;
                     case KeyEvent.VK_ESCAPE:
-                        Main.PAUSE = !Main.PAUSE;
+                    	if(!Main.GAMEOVER)
+                    		Main.PAUSE = !Main.PAUSE;
                         break;
                 }
             } catch (NotEnoughSnakeException exception) {
-                Main.RESET = true;
+                Main.GAMEOVER = true;
             } catch (Exception ex) {
 
             }

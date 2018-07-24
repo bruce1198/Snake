@@ -35,12 +35,14 @@ public class Wall {
     }
     public static Wall[] getWallOne() {
         Wall[] walls = new Wall[]{
-            new Wall(160, 160, 1, 10),
-            new Wall(160, 360, 8, 1),
-            new Wall(480, 100, 1, 5),
-            new Wall(480, 240, 1, 6),
-            new Wall(600, 300, 1, 10),
-            new Wall(500, 500, 6, 1)
+            //new Wall(8*GameWindow.unit, 10*GameWindow.unit, 1, 10),
+            //new Wall(8*GameWindow.unit, 20*GameWindow.unit, 8, 1),
+            new Wall(2*GameWindow.unit, 2*GameWindow.unit, 36, 1),
+            new Wall(2*GameWindow.unit, 27*GameWindow.unit, 36, 1),
+            new Wall(2*GameWindow.unit, 2*GameWindow.unit, 1, 12),
+            new Wall(2*GameWindow.unit, 15*GameWindow.unit, 1, 12),
+            new Wall(37*GameWindow.unit, 2*GameWindow.unit, 1, 12),
+            new Wall(37*GameWindow.unit, 15*GameWindow.unit, 1, 12)
         };
         WALL_NUMBER = 6;
         WALL_KIND = 1;
@@ -48,28 +50,28 @@ public class Wall {
     }
     public static Wall[] getWallTwo() {
         Wall[] walls = new Wall[]{
-            new Wall(80, 40, 1, 6),
-            new Wall(80, 280, 1, 6),
-            new Wall(80, 480, 1, 4),
+            new Wall(4*GameWindow.unit, 2*GameWindow.unit, 1, 6),
+            new Wall(4*GameWindow.unit, 14*GameWindow.unit, 1, 6),
+            new Wall(4*GameWindow.unit, 24*GameWindow.unit, 1, 4),
             //
-            new Wall(160, 480, 1, 4),
-            new Wall(180, 480, 5, 1),
+            new Wall(8*GameWindow.unit, 24*GameWindow.unit, 1, 4),
+            new Wall(9*GameWindow.unit, 24*GameWindow.unit, 5, 1),
             //
-            new Wall(420, 500, 1, 3),
-            new Wall(500, 60, 5, 1),
-            new Wall(540, 180, 5, 1),
-            new Wall(540, 500, 5, 1),
-            new Wall(620, 260, 1, 9),
-            new Wall(420, 260, 10, 1),
-            new Wall(420, 40, 1, 8),
-            new Wall(220, 200, 1, 8),
-            new Wall(220, 360, 6, 1),
-            new Wall(220, 40, 1, 3),
-            new Wall(320, 100, 1, 8),
+            new Wall(21*GameWindow.unit, 25*GameWindow.unit, 1, 3),
+            new Wall(25*GameWindow.unit, 3*GameWindow.unit, 5, 1),
+            new Wall(27*GameWindow.unit, 9*GameWindow.unit, 5, 1),
+            new Wall(27*GameWindow.unit, 25*GameWindow.unit, 5, 1),
+            new Wall(31*GameWindow.unit, 13*GameWindow.unit, 1, 6),
+            new Wall(21*GameWindow.unit, 13*GameWindow.unit, 10, 1),
+            new Wall(21*GameWindow.unit, 2*GameWindow.unit, 1, 8),
+            new Wall(11*GameWindow.unit, 10*GameWindow.unit, 1, 8),
+            new Wall(11*GameWindow.unit, 18*GameWindow.unit, 6, 1),
+            new Wall(11*GameWindow.unit, 2*GameWindow.unit, 1, 3),
+            new Wall(16*GameWindow.unit, 5*GameWindow.unit, 1, 8),
             //
-            new Wall(720, 40, 1, 6),
-            new Wall(720, 280, 1, 6),
-            new Wall(720, 480, 1, 4)
+            new Wall(36*GameWindow.unit, 2*GameWindow.unit, 1, 6),
+            new Wall(36*GameWindow.unit, 14*GameWindow.unit, 1, 6),
+            new Wall(36*GameWindow.unit, 24*GameWindow.unit, 1, 4)
         };
         WALL_NUMBER = 19;
         WALL_KIND = 2;
@@ -77,20 +79,20 @@ public class Wall {
     }
     public static Wall[] getWallThree() {
         Wall[] walls = new Wall[]{
-            new Wall(120, 80, 28, 1),
-            new Wall(120, 500, 28, 1),
-            new Wall(120, 120, 4, 1),
-            new Wall(120, 260, 4, 1),
-            new Wall(120, 300, 4, 1),
-            new Wall(120, 460, 4, 1),
-            new Wall(600, 120, 4, 1),
-            new Wall(600, 260, 4, 1),
-            new Wall(600, 300, 4, 1),
-            new Wall(600, 460, 4, 1),
-            new Wall(200, 120, 1, 8),
-            new Wall(200, 300, 1, 9),
-            new Wall(580, 120, 1, 8),
-            new Wall(580, 300, 1, 9)
+            new Wall(6*GameWindow.unit, 6*GameWindow.unit, 28, 1),
+            new Wall(6*GameWindow.unit, 23*GameWindow.unit, 28, 1),
+            new Wall(6*GameWindow.unit, 8*GameWindow.unit, 4, 1),
+            new Wall(6*GameWindow.unit, 14*GameWindow.unit, 4, 1),
+            new Wall(6*GameWindow.unit, 16*GameWindow.unit, 4, 1),
+            new Wall(6*GameWindow.unit, 21*GameWindow.unit, 4, 1),
+            new Wall(30*GameWindow.unit, 8*GameWindow.unit, 4, 1),
+            new Wall(30*GameWindow.unit, 14*GameWindow.unit, 4, 1),
+            new Wall(30*GameWindow.unit, 16*GameWindow.unit, 4, 1),
+            new Wall(30*GameWindow.unit, 21*GameWindow.unit, 4, 1),
+            new Wall(10*GameWindow.unit, 8*GameWindow.unit, 1, 7),
+            new Wall(10*GameWindow.unit, 16*GameWindow.unit, 1, 6),
+            new Wall(29*GameWindow.unit, 8*GameWindow.unit, 1, 7),
+            new Wall(29*GameWindow.unit, 16*GameWindow.unit, 1, 6)
         };
         WALL_NUMBER = 14;
         WALL_KIND = 3;
@@ -98,20 +100,20 @@ public class Wall {
     }
     public static Wall[] getWallFour() {
         Wall[] walls = new Wall[]{
-            new Wall(80, 80, 6, 1),
-            new Wall(80, 120, 4, 1),
-            new Wall(140, 140, 1, 20),
-            new Wall(180, 100, 1, 20),
-            new Wall(140, 540, 26, 1),
-            new Wall(180, 500, 22, 1),
-            new Wall(600, 80, 6, 1),
-            new Wall(640, 120, 4, 1),
-            new Wall(640, 140, 1, 20),
-            new Wall(600, 100, 1, 20),
-            new Wall(300, 120, 1, 5),
-            new Wall(300, 280, 1, 7),
-            new Wall(500, 120, 1, 5),
-            new Wall(500, 280, 1, 7)
+            new Wall(5*GameWindow.unit, 8*GameWindow.unit, 6, 1),
+            new Wall(5*GameWindow.unit, 10*GameWindow.unit, 4, 1),
+            new Wall(8*GameWindow.unit, 11*GameWindow.unit, 1, 12),
+            new Wall(10*GameWindow.unit, 9*GameWindow.unit, 1, 12),
+            new Wall(8*GameWindow.unit, 23*GameWindow.unit, 23, 1),
+            new Wall(10*GameWindow.unit, 21*GameWindow.unit, 19, 1),
+            new Wall(28*GameWindow.unit, 8*GameWindow.unit, 6, 1),
+            new Wall(30*GameWindow.unit, 10*GameWindow.unit, 4, 1),
+            new Wall(30*GameWindow.unit, 11*GameWindow.unit, 1, 12),
+            new Wall(28*GameWindow.unit, 9*GameWindow.unit, 1, 12),
+            new Wall(15*GameWindow.unit, 8*GameWindow.unit, 1, 4),
+            new Wall(15*GameWindow.unit, 14*GameWindow.unit, 1, 4),
+            new Wall(23*GameWindow.unit, 8*GameWindow.unit, 1, 4),
+            new Wall(23*GameWindow.unit, 14*GameWindow.unit, 1, 4)
         };
         WALL_NUMBER = 14;
         WALL_KIND = 4;

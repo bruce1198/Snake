@@ -7,29 +7,29 @@ import java.io.*;
 
 public class BeginWindow extends JPanel{
     static int choice = 0;
+    int WIDTH;
+    int HEIGHT;
+    //mouse
+    static boolean exitClick;
     Image beginPage;
     Image start;
     Image help;
     Image water;
+    Image exit;
     BeginWindow() {
         setPreferredSize(new Dimension(1000, 600));
+    	WIDTH = 1000;
+        HEIGHT = 600;
+        exitClick = false;
+        /*setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+        WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+        HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;*/
         try {
             beginPage = ImageIO.read(new File(".\\source\\picture\\beginPage.png"));
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-        try {
             start = ImageIO.read(new File(".\\source\\picture\\start.png"));
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-        try {
             help = ImageIO.read(new File(".\\source\\picture\\help.png"));
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-        try {
             water = ImageIO.read(new File(".\\source\\picture\\water.png"));
+            exit = ImageIO.read(new File(".\\source\\picture\\escape.png"));
         } catch (Exception e) {
             System.out.println("Error");
         }
@@ -38,26 +38,16 @@ public class BeginWindow extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
         //background
-        g.drawImage(beginPage, 0, 0, beginPage.getWidth(null), beginPage.getHeight(null), null);
-        /*drawBox(g, Color.BLACK, 100, 200, 200, 80);
-        drawBox(g, Color.BLACK, 100, 320, 200, 80);
-        drawBox(g, Color.RED, 100, 200+choice*120, 200, 80);
-        drawBox(g, new Color(173, 92, 0), 105, 205, 190, 70);
-        drawBox(g, new Color(173, 92, 0), 105, 325, 190, 70);
-        write(g, Color.WHITE, "Start", 60, 135, 260);
-        write(g, Color.WHITE, "About", 60, 125, 380);*/
-        g.drawImage(start, 100, 180, start.getWidth(null), start.getHeight(null), null);
-        g.drawImage(help, 100, 380, help.getWidth(null), help.getHeight(null), null);
-        g.drawImage(water, 350, 180+choice*200, water.getWidth(null), water.getHeight(null), null);
+        g.drawImage(beginPage, 0, 0, WIDTH, HEIGHT, null);
+        g.drawImage(start, WIDTH/10, HEIGHT/3, WIDTH*start.getWidth(null)/1200, WIDTH*start.getHeight(null)/1200, null);
+        g.drawImage(help, WIDTH/10, 5*HEIGHT/8, WIDTH*start.getWidth(null)/1200, WIDTH*start.getHeight(null)/1200, null);
+        g.drawImage(water, WIDTH/3, HEIGHT-360+choice*180, WIDTH*water.getWidth(null)/1600, HEIGHT*water.getHeight(null)/900, null);
+        if(exitClick) {
+        	g.setColor(new Color(255, 255, 255, 100));
+        	g.fillRoundRect(WIDTH-exit.getWidth(null)-3, HEIGHT-exit.getHeight(null)-3, exit.getWidth(null)+3, exit.getHeight(null)+3, 20, 20);
+        }
+        g.drawImage(exit, WIDTH-exit.getWidth(null), HEIGHT-exit.getHeight(null), exit.getWidth(null), exit.getHeight(null), null);
+        //
+        repaint();
     }
-    /*private void drawBox(Graphics g, Color color, int x, int y, int width, int height) {
-        g.setColor(color);
-        g.fillRoundRect(x, y, width, height, 10, 10);
-        g.fill3DRect(x, y, width, height, true);
-    }
-    private void write(Graphics g, Color color, String word, int size, int x, int y) {
-        g.setColor(color);
-        g.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, size));
-        g.drawString(word, x, y);
-    }*/
 }

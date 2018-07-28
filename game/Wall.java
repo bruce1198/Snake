@@ -8,8 +8,8 @@ public class Wall {
     int width;
     int height;
     Wall() {
-        this.x = 200 + 20 * (int)(30*Math.random());;
-        this.y = 200 + 20 * (int)(20*Math.random());;
+        this.x = 200 + 20 * (int)(30*Math.random());
+        this.y = 200 + 20 * (int)(20*Math.random());
         this.width = 40 + (int)(40*Math.random());
         this.height = 20;
     }
@@ -20,7 +20,7 @@ public class Wall {
         this.height = height;
     }
     public static Wall[] getWalls() {
-        int choice = (int)(4*Math.random());
+        int choice = (int)(5*Math.random());
         switch(choice) {
             case 0:
                 return getWallOne();
@@ -30,8 +30,11 @@ public class Wall {
                 return getWallThree();
             case 3:
                 return getWallFour();
+            case 4:
+            	return getWallFive();
         }
         return null;
+        //return getWallFive();
     }
     public static Wall[] getWallOne() {
         Wall[] walls = new Wall[]{
@@ -117,6 +120,27 @@ public class Wall {
         };
         WALL_NUMBER = 14;
         WALL_KIND = 4;
+        return walls;
+    }
+    public static Wall[] getWallFive() {
+        Wall[] walls = new Wall[]{
+            new Wall(5*GameWindow.unit, 8*GameWindow.unit, 6, 1),
+            new Wall(5*GameWindow.unit, 10*GameWindow.unit, 4, 1),
+            new Wall(8*GameWindow.unit, 11*GameWindow.unit, 1, 12),
+            new Wall(10*GameWindow.unit, 9*GameWindow.unit, 1, 12),
+            new Wall(8*GameWindow.unit, 23*GameWindow.unit, 23, 1),
+            new Wall(10*GameWindow.unit, 21*GameWindow.unit, 19, 1),
+            new Wall(28*GameWindow.unit, 8*GameWindow.unit, 6, 1),
+            new Wall(30*GameWindow.unit, 10*GameWindow.unit, 4, 1),
+            new Wall(30*GameWindow.unit, 11*GameWindow.unit, 1, 12),
+            new Wall(28*GameWindow.unit, 9*GameWindow.unit, 1, 12),
+            new Wall(15*GameWindow.unit, 8*GameWindow.unit, 1, 4),
+            new Wall(15*GameWindow.unit, 14*GameWindow.unit, 1, 4),
+            new Wall(23*GameWindow.unit, 8*GameWindow.unit, 1, 4),
+            new Wall(23*GameWindow.unit, 14*GameWindow.unit, 1, 4)
+        };
+        WALL_NUMBER = 0;
+        WALL_KIND = 5;
         return walls;
     }
 }

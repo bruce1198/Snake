@@ -89,18 +89,18 @@ public class GameMouseListener implements MouseListener, MouseMotionListener, Mo
 		}
 		else if(Main.window==2) {
 			//exit
-			if(MOUSE_X>=300&&MOUSE_X<=500&&MOUSE_Y>=415&&MOUSE_Y<=540 && (Main.PAUSE || Main.GAMEOVER)) {
+			if(MOUSE_X>=300&&MOUSE_X<=500&&MOUSE_Y>=415&&MOUSE_Y<=540 && (GameWindow.PAUSE || GameWindow.GAMEOVER)) {
 				Main.EXIT = -1;
 			}
 			//resume
-			if(MOUSE_X>=300&&MOUSE_X<=500&&MOUSE_Y>=55&&MOUSE_Y<=180 && Main.PAUSE) {
-				Main.PAUSE = false;
+			if(MOUSE_X>=300&&MOUSE_X<=500&&MOUSE_Y>=55&&MOUSE_Y<=180 && GameWindow.PAUSE) {
+				GameWindow.PAUSE = false;
 			}
 			//menu
-			if(MOUSE_X>=300&&MOUSE_X<=500&MOUSE_Y>=235&&MOUSE_Y<=360 && (Main.PAUSE || Main.GAMEOVER)) {
+			if(MOUSE_X>=300&&MOUSE_X<=500&MOUSE_Y>=235&&MOUSE_Y<=360 && (GameWindow.PAUSE || GameWindow.GAMEOVER)) {
 				Main.window = 1;
 				Main.change = 1;
-				Main.GAMEOVER = false;
+				GameWindow.GAMEOVER = false;
 			}
 			GameWindow.resumeClick = false;
 			GameWindow.menuClick = false;

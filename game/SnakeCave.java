@@ -21,6 +21,8 @@ public class SnakeCave {
                 return getSnakeCaveThree();
             case 4:
                 return getSnakeCaveFour();
+            case 5:
+            	return getSnakeCaveFive();
         }
         return null;
     }
@@ -36,9 +38,9 @@ public class SnakeCave {
     }
     public static SnakeCave[] getSnakeCaveTwo() {
         SnakeCave[] SnakeCaves = new SnakeCave[]{
-            new SnakeCave(27*GameWindow.unit, 6*GameWindow.unit),
-            new SnakeCave(8*GameWindow.unit, 7*GameWindow.unit),
-            new SnakeCave(25*GameWindow.unit, 18*GameWindow.unit)
+            new SnakeCave(32*GameWindow.unit, 10*GameWindow.unit),
+            new SnakeCave(6*GameWindow.unit, 9*GameWindow.unit),
+            new SnakeCave(25*GameWindow.unit, 20*GameWindow.unit)
         };
         CAVE_NUMBER = 3;
         CAVE_KIND = 2;
@@ -64,6 +66,15 @@ public class SnakeCave {
         };
         CAVE_NUMBER = 3;
         CAVE_KIND = 4;
+        return SnakeCaves;
+    }
+    public static SnakeCave[] getSnakeCaveFive() {
+        SnakeCave[] SnakeCaves = new SnakeCave[]{
+            new SnakeCave(16*GameWindow.unit, 10*GameWindow.unit),
+            new SnakeCave(24*GameWindow.unit, 18*GameWindow.unit)
+        };
+        CAVE_NUMBER = 2;
+        CAVE_KIND = 5;
         return SnakeCaves;
     }
 }

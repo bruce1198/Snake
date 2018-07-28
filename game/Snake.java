@@ -11,6 +11,7 @@ public class Snake {
     int inCave;//counter
     boolean isInCave;
     public static int speed = 100;
+    //first snake
     Snake(int x, int y, int dir) {
         int init_x = x;
         int init_y = y;
@@ -56,13 +57,14 @@ public class Snake {
                 break;
         }
     }
+    //snake born from cave
     Snake(int x, int y) {
         int initDir = (int)(3*Math.random());
         int init_x = x;
         int init_y = y;
         int init_color = (int)(4*Math.random());
         this.length = 2;
-        wait = 200;
+        wait = 2*Snake.speed;
         isInCave = false;
         switch(init_color) {
             case 0:
@@ -83,72 +85,66 @@ public class Snake {
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(2-GameWindow.unit*i + init_x, init_y, 0);
+                    bodies[i] = new Body(GameWindow.unit/20-GameWindow.unit*i + init_x, init_y, 0);
                 }
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(-2+GameWindow.unit*i + init_x, init_y, 1);
+                    bodies[i] = new Body(-GameWindow.unit/20+GameWindow.unit*i + init_x, init_y, 1);
                 }
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, -2+GameWindow.unit*i + init_y, 2);
+                    bodies[i] = new Body(init_x, -GameWindow.unit/20+GameWindow.unit*i + init_y, 2);
                 }
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, 2-GameWindow.unit*i + init_y, 3);
+                    bodies[i] = new Body(init_x, GameWindow.unit/20-GameWindow.unit*i + init_y, 3);
                 }
                 break;
         }
     }
-    Snake() {
+    
+    public void setPosAndDir(int x, int y) {
         int initDir = (int)(3*Math.random());
-        int init_x = 100 + GameWindow.unit * (int)(30*Math.random());
-        int init_y = 100 + GameWindow.unit * (int)(GameWindow.unit*Math.random());
-        int init_color = (int)(4*Math.random());
-        this.length = 2;
-        wait = 0;
-        switch(init_color) {
-            case 0:
-                color = Color.RED;
-                break;
-            case 1:
-                color = Color.BLUE;
-                break;
-            case 2:
-                color = Color.GREEN;
-                break;
-            case 3:
-                color = Color.ORANGE;
-                break;
-        }
+        int init_x = x;
+        int init_y = y;
         dir = initDir;
         switch(initDir) {
             case 0: //right
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(GameWindow.unit + init_x - GameWindow.unit*i, init_y, 0);
+                    bodies[i].x = GameWindow.unit/20-GameWindow.unit*i + init_x;
+                    bodies[i].y = init_y;
+                    bodies[i].dir = 0;
                 }
                 break;
             case 1: //left
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(-GameWindow.unit + GameWindow.unit*i + init_x, init_y, 1);
+                    bodies[i].x = -GameWindow.unit/20+GameWindow.unit*i + init_x;
+                    bodies[i].y = init_y;
+                    bodies[i].dir = 1;
                 }
                 break;
             case 2: // up
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, -GameWindow.unit+GameWindow.unit*i + init_y, 2);
+                    bodies[i].x = init_x;
+                    bodies[i].y = -GameWindow.unit/20+GameWindow.unit*i + init_y;
+                    bodies[i].dir = 2;
                 }
                 break;
             case 3: // down
                 for(int i=0; i<length; i++) {
-                    bodies[i] = new Body(init_x, GameWindow.unit-GameWindow.unit*i + init_y, 3);
+                    bodies[i].x = init_x;
+                    bodies[i].y = GameWindow.unit/20-GameWindow.unit*i + init_y;
+                    bodies[i].dir = 3;
                 }
                 break;
         }
-        //System.out.println(length);
+        //System.out.println(bodies[0].x+", "+ bodies[0].y);
+
     }
+    //---------------------------------------------------------------------
     public void getPoint() {
         //System.out.println("Get");
         switch(bodies[length-1].dir) {
@@ -168,42 +164,6 @@ public class Snake {
         length++;
         Point.eggLeft--;
     }
-    public void setPosAndDir(int x, int y) {
-        int initDir = (int)(3*Math.random());
-        int init_x = x;
-        int init_y = y;
-        dir = initDir;
-        switch(initDir) {
-            case 0: //right
-                for(int i=0; i<length; i++) {
-                    bodies[i].x = 2-GameWindow.unit*i + init_x;
-                    bodies[i].y = init_y;
-                    bodies[i].dir = 0;
-                }
-                break;
-            case 1: //left
-                for(int i=0; i<length; i++) {
-                    bodies[i].x = -2+GameWindow.unit*i + init_x;
-                    bodies[i].y = init_y;
-                    bodies[i].dir = 1;
-                }
-                break;
-            case 2: // up
-                for(int i=0; i<length; i++) {
-                    bodies[i].x = init_x;
-                    bodies[i].y = -2+GameWindow.unit*i + init_y;
-                    bodies[i].dir = 2;
-                }
-                break;
-            case 3: // down
-                for(int i=0; i<length; i++) {
-                    bodies[i].x = init_x;
-                    bodies[i].y = 2-GameWindow.unit*i + init_y;
-                    bodies[i].dir = 3;
-                }
-                break;
-        }
-        //System.out.println(bodies[0].x+", "+ bodies[0].y);
-
-    }
+    //snake select cave to go out
+    
 }

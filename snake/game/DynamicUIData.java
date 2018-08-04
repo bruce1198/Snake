@@ -8,7 +8,7 @@ public class DynamicUIData implements Serializable{
 	public Player p2;
 	public Snake s1;
 	public Snake s2;
-	//public Point[] points;
+	public Point[] points;
 	public int numberOfPoint;
 	public int nextDir1;
 	public int nextDir2;
@@ -20,7 +20,8 @@ public class DynamicUIData implements Serializable{
 			s2 = p2.getSnake();
 		} catch (Exception e) {
 			
-		}
+        }
+        points = new Point[100];
 		numberOfPoint = 0;
 		nextDir1 = 0;
 		nextDir2 = 1;

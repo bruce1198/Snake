@@ -1,12 +1,6 @@
 package snake.game;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
 import snake.util.Setting;
-
-import java.io.*;
 
 public class RunGame extends Thread {
     static final long serialVersionUID = 1;
@@ -23,9 +17,9 @@ public class RunGame extends Thread {
     int move[];
     //keyboard valid[id]
     static boolean valid[];
-    UIData uidata;
+    DynamicUIData duidata;
     
-    public RunGame(UIData uiData){
+    public RunGame(DynamicUIData duiData){
         WIDTH = 1000;
         HEIGHT = 600;
         p1 = new Player(5);
@@ -43,7 +37,7 @@ public class RunGame extends Thread {
         //put egg
         putPoint();
         putPoint();
-        this.uidata = uiData;
+        this.duidata = duiData;
     }
     public void moveSnake(Snake s, Snake other, int id) throws NotEnoughSnakeException, 
                                     ArrayIndexOutOfBoundsException{
@@ -205,9 +199,6 @@ public class RunGame extends Thread {
     }
     //--------------------------------------------------------------
     public void putPoint() {
-        if(points==null) {
-            points = new Point[100];
-        }
         int x, y;
         while(true) {
             x = Setting.unit * (int)(40*Math.random());
@@ -215,8 +206,8 @@ public class RunGame extends Thread {
             if(isValid(x, y))
                 break;
         }
-        points[numberOfPoint] = new Point(x, y);
-        numberOfPoint++;
+        duidata.points[numberOfPoint] = new Point(x, y);
+        duidata.numberOfPoint++;
         //System.out.println(numberOfPoint);
     }
     //if the position can set apple 
@@ -363,8 +354,8 @@ public class RunGame extends Thread {
 				//
 				//System.out.println("run");
 				try {
-					if(!Setting.PAUSE && !Setting.GAMEOVER) moveSnake(uidata.s1, uidata.s2, 0);
-					if(!Setting.PAUSE && !Setting.GAMEOVER) moveSnake(uidata.s2, uidata.s1, 1);
+					if(!Setting.PAUSE && !Setting.GAMEOVER) moveSnake(duidata.s1, duidata.s2, 0);
+					if(!Setting.PAUSE && !Setting.GAMEOVER) moveSnake(duidata.s2, duidata.s1, 1);
 				}catch(NotEnoughSnakeException e) {
 					Setting.GAMEOVER = true;
 				}
@@ -394,9 +385,9 @@ public class RunGame extends Thread {
     	valid = new boolean[2];
         Point.eggLeft = 2;
         //put wall
-        putWall(Wall.getWalls());
+        //putWall(Wall.getWalls());
         //put caves
-        putCave(SnakeCave.getSnakeCaves());
+        //putCave(SnakeCave.getSnakeCaves());
         //put egg
         putPoint();
         putPoint();

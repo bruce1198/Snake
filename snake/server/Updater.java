@@ -1,22 +1,21 @@
 package snake.server;
 
 import java.io.*;
-import java.util.*;
-
-import snake.game.UIData;
+import java.net.*;
+import snake.game.*;
 
 public class Updater extends Thread{
 	
-	UIData uidata;
+	DynamicUIData duidata;
     ObjectInputStream ois;
     
-	Updater(UIData uidata, ObjectInputStream ois) {
-		this.uidata = uidata;
+	Updater(DynamicUIData duidata, ObjectInputStream ois) {
+		this.duidata = duidata;
 		this.ois = ois;
 	}
-	private void update(UIData uiData) {
-		uidata.s1.dir = uiData.nextDir1;
-		uidata.s2.dir = uiData.nextDir2;
+	private void update(DynamicUIData duiData) {
+		duidata.s1.dir = duiData.nextDir1;
+		duidata.s2.dir = duiData.nextDir2;
 	}
 	@Override
 	public void run() {
@@ -24,11 +23,13 @@ public class Updater extends Thread{
 			
 		while(true) {
 			try {
-				UIData uiData = null;
-				uiData = (UIData) ois.readObject();
-				synchronized(uidata){
-					update(uiData);
+				DynamicUIData duiData = null;
+				duiData = (DynamicUIData) ois.readObject();
+				synchronized(duidata){
+					update(duiData);
 				}
+			} catch(SocketException e) {
+				System.out.println("Player has left");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

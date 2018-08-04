@@ -78,7 +78,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
     //board
     Image board;
     //data
-	UIData uidata;
+    DynamicUIData duidata;
+    UIData uidata;
 	ClientUI(ObjectInputStream ois, ObjectOutputStream oos){
 		this.ois = ois;
         this.oos = oos;
@@ -135,19 +136,34 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
             System.out.println("Picture Error");
         }
         //data
-		uidata = new UIData();
-	}
-	//
-	public void update(UIData uiData) {
-		this.uidata = uiData;
+        duidata = new DynamicUIData();
+        uidata = new UIData();
+    }
+    //init
+    private void init(UIData uiData) {
+        this.uidata = uiData;
+    }
+	//update
+	private void update(DynamicUIData duiData) {
+		this.duidata = duiData;
 	}
 	@Override
 	public void run() {
+        UIData uiData = null;
+        try {
+            uiData = (UIData)ois.readObject();
+            init(uiData);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        init(uiData);
 		while(true) {
-			UIData uiData = null;
+			DynamicUIData duiData = null;
 			try {
-                uiData = (UIData)ois.readObject();
-                update(uiData);
+                duiData = (DynamicUIData)ois.readObject();
+                update(duiData);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -160,7 +176,7 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 		super.paintComponent(g);
         g.drawImage(map, 0, 0, WIDTH-200, HEIGHT, null);
         //---------------------paint wall---------------------
-        /*for(int i=0; i<Wall.WALL_NUMBER; i++) {
+        for(int i=0; i<uidata.numberOfWall; i++) {
             try {
                 for(int row=0; row<uidata.walls[i].height; row++) {
                     for(int col=0; col<uidata.walls[i].width; col++) {
@@ -172,61 +188,59 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
             }
         }
         //----------------------------------paint apple------------------------
-        if(uidata.points!=null) {
-            for(int i=0; i<uidata.numberOfPoint; i++) {
+        /*if(duidata.points!=null) {
+            for(int i=0; i<duidata.numberOfPoint; i++) {
                 try{
-                    g.drawImage(apple, uidata.points[i].x, uidata.points[i].y-8, Setting.unit, Setting.unit+8, null);
-                }catch(NullPointerException e) {
-
-                }
-            }
-        }
-        if(uidata.snakeCaves!=null) {
-            for(int i=0; i<SnakeCave.CAVE_NUMBER; i++) {
-                try{
-                    g.drawImage(hole, uidata.snakeCaves[i].x, uidata.snakeCaves[i].y, Setting.unit, Setting.unit, null);
+                    g.drawImage(apple, duidata.points[i].x, duidata.points[i].y-8, Setting.unit, Setting.unit+8, null);
                 }catch(NullPointerException e) {
 
                 }
             }
         }*/
+        for(int i=0; i<uidata.numberOfCave; i++) {
+            try{
+                g.drawImage(hole, uidata.snakeCaves[i].x, uidata.snakeCaves[i].y, Setting.unit, Setting.unit, null);
+            }catch(NullPointerException e) {
+
+            }
+        }
         //--------------------------------paint p1's snake---------------------------------
         try {
             //System.out.println(uidata.s1.wait);
-            if(uidata.s1.wait==0) {
-                for(int i=1; i<uidata.s1.length-1; i++) {
+            if(duidata.s1.wait==0) {
+                for(int i=1; i<duidata.s1.length-1; i++) {
                     //g.setColor(uidata.s1.color);
                     g.setColor(Color.ORANGE);
-                    if(uidata.s1.bodies[i].x!=-1 && uidata.s1.bodies[i].x != -1 
-                        && uidata.s1.bodies[i].show) {
+                    if(duidata.s1.bodies[i].x!=-1 && duidata.s1.bodies[i].x != -1 
+                        && duidata.s1.bodies[i].show) {
                     	//g.fillRect(uidata.s1.bodies[i].x, uidata.s1.bodies[i].y, unit, unit);
-                        g.fillArc(uidata.s1.bodies[i].x, uidata.s1.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
-                        if(uidata.s1.bodies[i].x>WIDTH-200-Setting.unit
-                            && uidata.s1.bodies[i].show) {
+                        g.fillArc(duidata.s1.bodies[i].x, duidata.s1.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
+                        if(duidata.s1.bodies[i].x>WIDTH-200-Setting.unit
+                            && duidata.s1.bodies[i].show) {
                         	//g.fillRect((uidata.s1.bodies[i].x%(WIDTH-200-unit))-unit, uidata.s1.bodies[i].y, unit, unit);
-                            g.fillArc((uidata.s1.bodies[i].x%(WIDTH-200-Setting.unit))-Setting.unit, uidata.s1.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
+                            g.fillArc((duidata.s1.bodies[i].x%(WIDTH-200-Setting.unit))-Setting.unit, duidata.s1.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
                         }
-                        if(uidata.s1.bodies[i].x<0
-                            && uidata.s1.bodies[i].show) {
+                        if(duidata.s1.bodies[i].x<0
+                            && duidata.s1.bodies[i].show) {
                         	//g.fillRect(uidata.s1.bodies[i].x+WIDTH-200, uidata.s1.bodies[i].y, unit, unit);
-                            g.fillArc(uidata.s1.bodies[i].x+WIDTH-200, uidata.s1.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
+                            g.fillArc(duidata.s1.bodies[i].x+WIDTH-200, duidata.s1.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
                         }
-                        if(uidata.s1.bodies[i].y>HEIGHT-Setting.unit
-                            && uidata.s1.bodies[i].show) {
+                        if(duidata.s1.bodies[i].y>HEIGHT-Setting.unit
+                            && duidata.s1.bodies[i].show) {
                         	//g.fillRect(uidata.s1.bodies[i].x, uidata.s1.bodies[i].y%(HEIGHT-unit)-unit, unit, unit);
-                            g.fillArc(uidata.s1.bodies[i].x, uidata.s1.bodies[i].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, 0, 360);
+                            g.fillArc(duidata.s1.bodies[i].x, duidata.s1.bodies[i].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, 0, 360);
                         }
-                        if(uidata.s1.bodies[i].y<0
-                            && uidata.s1.bodies[i].show) {
-                        	//g.fillRect(uidata.s1.bodies[i].x, uidata.s1.bodies[i].y+HEIGHT, unit, unit);
-                            g.fillArc(uidata.s1.bodies[i].x, uidata.s1.bodies[i].y+HEIGHT, Setting.unit, Setting.unit, 0, 360);
+                        if(duidata.s1.bodies[i].y<0
+                            && duidata.s1.bodies[i].show) {
+                        	//g.fillRect(duidata.s1.bodies[i].x, duidata.s1.bodies[i].y+HEIGHT, unit, unit);
+                            g.fillArc(duidata.s1.bodies[i].x, duidata.s1.bodies[i].y+HEIGHT, Setting.unit, Setting.unit, 0, 360);
                         }
                     }
-                    //System.out.println(uidata.s1.bodies[i].x+", "+uidata.s1.bodies[i].y);
+                    //System.out.println(duidata.s1.bodies[i].x+", "+duidata.s1.bodies[i].y);
                 }
                 //for head
                 Image head = null;
-                switch(uidata.s1.bodies[0].dir) {
+                switch(duidata.s1.bodies[0].dir) {
                 	case 0:
                 		head = oHeadR;
                 		break;
@@ -240,28 +254,28 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
                 		head = oHeadD;
                 		break;
                 }
-                if(uidata.s1.bodies[0].show)
-                	g.drawImage(head, uidata.s1.bodies[0].x, uidata.s1.bodies[0].y, Setting.unit, Setting.unit, null);
-                	//g.fillArc(uidata.s1.bodies[0].x, uidata.s1.bodies[0].y, unit, unit, 0, 360);
-                if(uidata.s1.bodies[0].x>WIDTH-200-Setting.unit
-                    && uidata.s1.bodies[0].show) {
-                	g.drawImage(head, (uidata.s1.bodies[0].x%(WIDTH-200-Setting.unit))-Setting.unit, uidata.s1.bodies[0].y, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[0].show)
+                	g.drawImage(head, duidata.s1.bodies[0].x, duidata.s1.bodies[0].y, Setting.unit, Setting.unit, null);
+                	//g.fillArc(duidata.s1.bodies[0].x, duidata.s1.bodies[0].y, unit, unit, 0, 360);
+                if(duidata.s1.bodies[0].x>WIDTH-200-Setting.unit
+                    && duidata.s1.bodies[0].show) {
+                	g.drawImage(head, (duidata.s1.bodies[0].x%(WIDTH-200-Setting.unit))-Setting.unit, duidata.s1.bodies[0].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s1.bodies[0].x<0
-                    && uidata.s1.bodies[0].show) {
-                	g.drawImage(head, uidata.s1.bodies[0].x+WIDTH-200, uidata.s1.bodies[0].y, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[0].x<0
+                    && duidata.s1.bodies[0].show) {
+                	g.drawImage(head, duidata.s1.bodies[0].x+WIDTH-200, duidata.s1.bodies[0].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s1.bodies[0].y>HEIGHT-Setting.unit
-                    && uidata.s1.bodies[0].show) {
-                	g.drawImage(head, uidata.s1.bodies[0].x, uidata.s1.bodies[0].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[0].y>HEIGHT-Setting.unit
+                    && duidata.s1.bodies[0].show) {
+                	g.drawImage(head, duidata.s1.bodies[0].x, duidata.s1.bodies[0].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s1.bodies[0].y<0
-                    && uidata.s1.bodies[0].show) {
-                	g.drawImage(head, uidata.s1.bodies[0].x, uidata.s1.bodies[0].y+HEIGHT, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[0].y<0
+                    && duidata.s1.bodies[0].show) {
+                	g.drawImage(head, duidata.s1.bodies[0].x, duidata.s1.bodies[0].y+HEIGHT, Setting.unit, Setting.unit, null);
                 }
                 //for tail
                 Image tail = null;
-                switch(uidata.s1.bodies[uidata.s1.length-1].dir) {
+                switch(duidata.s1.bodies[duidata.s1.length-1].dir) {
                 	case 0:
                 		tail = cTailR;
                 		break;
@@ -275,24 +289,24 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
                 		tail = cTailD;
                 		break;
                 }
-                if(uidata.s1.bodies[uidata.s1.length-1].show)
-                	g.drawImage(tail, uidata.s1.bodies[uidata.s1.length-1].x, uidata.s1.bodies[uidata.s1.length-1].y, Setting.unit, Setting.unit, null);
-                	//g.fillArc(uidata.s1.bodies[0].x, uidata.s1.bodies[0].y, unit, unit, 0, 360);
-                if(uidata.s1.bodies[uidata.s1.length-1].x>WIDTH-200-Setting.unit
-                    && uidata.s1.bodies[uidata.s1.length-1].show) {
-                	g.drawImage(tail, (uidata.s1.bodies[uidata.s1.length-1].x%(WIDTH-200-Setting.unit))-Setting.unit, uidata.s1.bodies[uidata.s1.length-1].y, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[duidata.s1.length-1].show)
+                	g.drawImage(tail, duidata.s1.bodies[duidata.s1.length-1].x, duidata.s1.bodies[duidata.s1.length-1].y, Setting.unit, Setting.unit, null);
+                	//g.fillArc(duidata.s1.bodies[0].x, duidata.s1.bodies[0].y, unit, unit, 0, 360);
+                if(duidata.s1.bodies[duidata.s1.length-1].x>WIDTH-200-Setting.unit
+                    && duidata.s1.bodies[duidata.s1.length-1].show) {
+                	g.drawImage(tail, (duidata.s1.bodies[duidata.s1.length-1].x%(WIDTH-200-Setting.unit))-Setting.unit, duidata.s1.bodies[duidata.s1.length-1].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s1.bodies[uidata.s1.length-1].x<0
-                    && uidata.s1.bodies[uidata.s1.length-1].show) {
-                	g.drawImage(tail, uidata.s1.bodies[uidata.s1.length-1].x+WIDTH-200, uidata.s1.bodies[uidata.s1.length-1].y, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[duidata.s1.length-1].x<0
+                    && duidata.s1.bodies[duidata.s1.length-1].show) {
+                	g.drawImage(tail, duidata.s1.bodies[duidata.s1.length-1].x+WIDTH-200, duidata.s1.bodies[duidata.s1.length-1].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s1.bodies[uidata.s1.length-1].y>HEIGHT-Setting.unit
-                    && uidata.s1.bodies[uidata.s1.length-1].show) {
-                	g.drawImage(tail, uidata.s1.bodies[uidata.s1.length-1].x, uidata.s1.bodies[uidata.s1.length-1].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[duidata.s1.length-1].y>HEIGHT-Setting.unit
+                    && duidata.s1.bodies[duidata.s1.length-1].show) {
+                	g.drawImage(tail, duidata.s1.bodies[duidata.s1.length-1].x, duidata.s1.bodies[duidata.s1.length-1].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s1.bodies[uidata.s1.length-1].y<0
-                    && uidata.s1.bodies[uidata.s1.length-1].show) {
-                	g.drawImage(tail, uidata.s1.bodies[uidata.s1.length-1].x, uidata.s1.bodies[uidata.s1.length-1].y+HEIGHT, Setting.unit, Setting.unit, null);
+                if(duidata.s1.bodies[duidata.s1.length-1].y<0
+                    && duidata.s1.bodies[duidata.s1.length-1].show) {
+                	g.drawImage(tail, duidata.s1.bodies[duidata.s1.length-1].x, duidata.s1.bodies[duidata.s1.length-1].y+HEIGHT, Setting.unit, Setting.unit, null);
                 }
                 //
             }
@@ -302,35 +316,35 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
         }
         //---------------------paint p2's snake---------------------------------
         try {
-            //System.out.println(uidata.s2.wait);
-            if(uidata.s2.wait==0) {
-                for(int i=1; i<uidata.s2.length-1; i++) {
-                    //g.setColor(uidata.s2.color);
+            //System.out.println(duidata.s2.wait);
+            if(duidata.s2.wait==0) {
+                for(int i=1; i<duidata.s2.length-1; i++) {
+                    //g.setColor(duidata.s2.color);
                     g.setColor(new Color(0, 209, 0));
-                    if(uidata.s2.bodies[i].x!=-1 && uidata.s2.bodies[i].x != -1 
-                        && uidata.s2.bodies[i].show) {
-                        g.fillArc(uidata.s2.bodies[i].x, uidata.s2.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
-                        if(uidata.s2.bodies[i].x>WIDTH-200-Setting.unit
-                            && uidata.s2.bodies[i].show) {
-                            g.fillArc((uidata.s2.bodies[i].x%(WIDTH-200-Setting.unit))-Setting.unit, uidata.s2.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
+                    if(duidata.s2.bodies[i].x!=-1 && duidata.s2.bodies[i].x != -1 
+                        && duidata.s2.bodies[i].show) {
+                        g.fillArc(duidata.s2.bodies[i].x, duidata.s2.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
+                        if(duidata.s2.bodies[i].x>WIDTH-200-Setting.unit
+                            && duidata.s2.bodies[i].show) {
+                            g.fillArc((duidata.s2.bodies[i].x%(WIDTH-200-Setting.unit))-Setting.unit, duidata.s2.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
                         }
-                        if(uidata.s2.bodies[i].x<0
-                            && uidata.s2.bodies[i].show) {
-                            g.fillArc(uidata.s2.bodies[i].x+WIDTH-200, uidata.s2.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
+                        if(duidata.s2.bodies[i].x<0
+                            && duidata.s2.bodies[i].show) {
+                            g.fillArc(duidata.s2.bodies[i].x+WIDTH-200, duidata.s2.bodies[i].y, Setting.unit, Setting.unit, 0, 360);
                         }
-                        if(uidata.s2.bodies[i].y>HEIGHT-Setting.unit
-                            && uidata.s2.bodies[i].show) {
-                            g.fillArc(uidata.s2.bodies[i].x, uidata.s2.bodies[i].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, 0, 360);
+                        if(duidata.s2.bodies[i].y>HEIGHT-Setting.unit
+                            && duidata.s2.bodies[i].show) {
+                            g.fillArc(duidata.s2.bodies[i].x, duidata.s2.bodies[i].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, 0, 360);
                         }
-                        if(uidata.s2.bodies[i].y<0
-                            && uidata.s2.bodies[i].show) {
-                            g.fillArc(uidata.s2.bodies[i].x, uidata.s2.bodies[i].y+HEIGHT, Setting.unit, Setting.unit, 0, 360);
+                        if(duidata.s2.bodies[i].y<0
+                            && duidata.s2.bodies[i].show) {
+                            g.fillArc(duidata.s2.bodies[i].x, duidata.s2.bodies[i].y+HEIGHT, Setting.unit, Setting.unit, 0, 360);
                         }
                     }
                 }
               //for head
                 Image head = null;
-                switch(uidata.s2.bodies[0].dir) {
+                switch(duidata.s2.bodies[0].dir) {
                 	case 0:
                 		head = gHeadR;
                 		break;
@@ -344,28 +358,28 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
                 		head = gHeadD;
                 		break;
                 }
-                if(uidata.s2.bodies[0].show)
-                	g.drawImage(head, uidata.s2.bodies[0].x, uidata.s2.bodies[0].y, Setting.unit, Setting.unit, null);
-                	//g.fillArc(uidata.s2.bodies[0].x, uidata.s2.bodies[0].y, unit, unit, 0, 360);
-                if(uidata.s2.bodies[0].x>WIDTH-200-Setting.unit
-                    && uidata.s2.bodies[0].show) {
-                	g.drawImage(head, (uidata.s2.bodies[0].x%(WIDTH-200-Setting.unit))-Setting.unit, uidata.s2.bodies[0].y, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[0].show)
+                	g.drawImage(head, duidata.s2.bodies[0].x, duidata.s2.bodies[0].y, Setting.unit, Setting.unit, null);
+                	//g.fillArc(duidata.s2.bodies[0].x, duidata.s2.bodies[0].y, unit, unit, 0, 360);
+                if(duidata.s2.bodies[0].x>WIDTH-200-Setting.unit
+                    && duidata.s2.bodies[0].show) {
+                	g.drawImage(head, (duidata.s2.bodies[0].x%(WIDTH-200-Setting.unit))-Setting.unit, duidata.s2.bodies[0].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s2.bodies[0].x<0
-                    && uidata.s2.bodies[0].show) {
-                	g.drawImage(head, uidata.s2.bodies[0].x+WIDTH-200, uidata.s2.bodies[0].y, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[0].x<0
+                    && duidata.s2.bodies[0].show) {
+                	g.drawImage(head, duidata.s2.bodies[0].x+WIDTH-200, duidata.s2.bodies[0].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s2.bodies[0].y>HEIGHT-Setting.unit
-                    && uidata.s2.bodies[0].show) {
-                	g.drawImage(head, uidata.s2.bodies[0].x, uidata.s2.bodies[0].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[0].y>HEIGHT-Setting.unit
+                    && duidata.s2.bodies[0].show) {
+                	g.drawImage(head, duidata.s2.bodies[0].x, duidata.s2.bodies[0].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s2.bodies[0].y<0
-                    && uidata.s2.bodies[0].show) {
-                	g.drawImage(head, uidata.s2.bodies[0].x, uidata.s2.bodies[0].y+HEIGHT, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[0].y<0
+                    && duidata.s2.bodies[0].show) {
+                	g.drawImage(head, duidata.s2.bodies[0].x, duidata.s2.bodies[0].y+HEIGHT, Setting.unit, Setting.unit, null);
                 }
                 //for tail
                 Image tail = null;
-                switch(uidata.s2.bodies[uidata.s2.length-1].dir) {
+                switch(duidata.s2.bodies[duidata.s2.length-1].dir) {
                 	case 0:
                 		tail = gTailR;
                 		break;
@@ -379,24 +393,24 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
                 		tail = gTailD;
                 		break;
                 }
-                if(uidata.s2.bodies[uidata.s2.length-1].show)
-                	g.drawImage(tail, uidata.s2.bodies[uidata.s2.length-1].x, uidata.s2.bodies[uidata.s2.length-1].y, Setting.unit, Setting.unit, null);
-                	//g.fillArc(uidata.s2.bodies[0].x, uidata.s2.bodies[0].y, unit, unit, 0, 360);
-                if(uidata.s2.bodies[uidata.s2.length-1].x>WIDTH-200-Setting.unit
-                    && uidata.s2.bodies[uidata.s2.length-1].show) {
-                	g.drawImage(tail, (uidata.s2.bodies[uidata.s2.length-1].x%(WIDTH-200-Setting.unit))-Setting.unit, uidata.s2.bodies[uidata.s2.length-1].y, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[duidata.s2.length-1].show)
+                	g.drawImage(tail, duidata.s2.bodies[duidata.s2.length-1].x, duidata.s2.bodies[duidata.s2.length-1].y, Setting.unit, Setting.unit, null);
+                	//g.fillArc(duidata.s2.bodies[0].x, duidata.s2.bodies[0].y, unit, unit, 0, 360);
+                if(duidata.s2.bodies[duidata.s2.length-1].x>WIDTH-200-Setting.unit
+                    && duidata.s2.bodies[duidata.s2.length-1].show) {
+                	g.drawImage(tail, (duidata.s2.bodies[duidata.s2.length-1].x%(WIDTH-200-Setting.unit))-Setting.unit, duidata.s2.bodies[duidata.s2.length-1].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s2.bodies[uidata.s2.length-1].x<0
-                    && uidata.s2.bodies[uidata.s2.length-1].show) {
-                	g.drawImage(tail, uidata.s2.bodies[uidata.s2.length-1].x+WIDTH-200, uidata.s2.bodies[uidata.s2.length-1].y, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[duidata.s2.length-1].x<0
+                    && duidata.s2.bodies[duidata.s2.length-1].show) {
+                	g.drawImage(tail, duidata.s2.bodies[duidata.s2.length-1].x+WIDTH-200, duidata.s2.bodies[duidata.s2.length-1].y, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s2.bodies[uidata.s2.length-1].y>HEIGHT-Setting.unit
-                    && uidata.s2.bodies[uidata.s2.length-1].show) {
-                	g.drawImage(tail, uidata.s2.bodies[uidata.s2.length-1].x, uidata.s2.bodies[uidata.s2.length-1].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[duidata.s2.length-1].y>HEIGHT-Setting.unit
+                    && duidata.s2.bodies[duidata.s2.length-1].show) {
+                	g.drawImage(tail, duidata.s2.bodies[duidata.s2.length-1].x, duidata.s2.bodies[duidata.s2.length-1].y%(HEIGHT-Setting.unit)-Setting.unit, Setting.unit, Setting.unit, null);
                 }
-                if(uidata.s2.bodies[uidata.s2.length-1].y<0
-                    && uidata.s2.bodies[uidata.s2.length-1].show) {
-                	g.drawImage(tail, uidata.s2.bodies[uidata.s2.length-1].x, uidata.s2.bodies[uidata.s2.length-1].y+HEIGHT, Setting.unit, Setting.unit, null);
+                if(duidata.s2.bodies[duidata.s2.length-1].y<0
+                    && duidata.s2.bodies[duidata.s2.length-1].show) {
+                	g.drawImage(tail, duidata.s2.bodies[duidata.s2.length-1].x, duidata.s2.bodies[duidata.s2.length-1].y+HEIGHT, Setting.unit, Setting.unit, null);
                 }
                 //
             }
@@ -409,35 +423,35 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
         g.drawImage(board, WIDTH-200, 0, 200, HEIGHT, null);
         //-----------------------paint p1's lives---------------
         g.setColor(Color.BLACK);
-        if(uidata.p1.numberOfSnack==1) {
+        if(duidata.p1.numberOfSnack==1) {
         	g.setColor(Color.RED);
         }
         g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString(""+uidata.p1.numberOfSnack, WIDTH-50, HEIGHT-220);
+        g.drawString(""+duidata.p1.numberOfSnack, WIDTH-50, HEIGHT-220);
         //----------------------paint p1's score------------------
         g.setColor(Color.BLACK);
-        if(uidata.p1.numberOfPoint>=25) {
+        if(duidata.p1.numberOfPoint>=25) {
         	g.setColor(Color.RED);
         }
-        g.setFont(new Font("Arial", Font.BOLD, 40+uidata.p1.numberOfPoint));
-        g.drawString(""+uidata.p1.numberOfPoint, WIDTH-100, HEIGHT-170);
+        g.setFont(new Font("Arial", Font.BOLD, 40+duidata.p1.numberOfPoint));
+        g.drawString(""+duidata.p1.numberOfPoint, WIDTH-100, HEIGHT-170);
         //---------------------paint p2's lives------------------------
         g.setColor(Color.BLACK);
-        if(uidata.p2.numberOfSnack==1) {
+        if(duidata.p2.numberOfSnack==1) {
         	g.setColor(Color.RED);
         }
         g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString(""+uidata.p2.numberOfSnack, WIDTH-50, HEIGHT-80);
+        g.drawString(""+duidata.p2.numberOfSnack, WIDTH-50, HEIGHT-80);
         //----------------------paint p2's score---------------------
         g.setColor(Color.BLACK);
-        if(uidata.p2.numberOfPoint>=25) {
+        if(duidata.p2.numberOfPoint>=25) {
         	g.setColor(Color.RED);
         }
-        g.setFont(new Font("Arial", Font.BOLD, 40+uidata.p2.numberOfPoint));
-        g.drawString(""+uidata.p2.numberOfPoint, WIDTH-100, HEIGHT-30);
+        g.setFont(new Font("Arial", Font.BOLD, 40+duidata.p2.numberOfPoint));
+        g.drawString(""+duidata.p2.numberOfPoint, WIDTH-100, HEIGHT-30);
         //-------------------paint p1's hint of in cave---------------------
         try {
-            if(uidata.s1.isInCave) {
+            if(duidata.s1.isInCave) {
             	g.drawImage(orangeInCave, (WIDTH-200)/2-110, 0, 200, 100, null);
                 g.setColor(new Color(0f, 0f, 0f, 0.5f));
                 g.fillRoundRect((WIDTH-200)/2-100, 0, 200, 100, 25, 25);
@@ -447,7 +461,7 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
         }
         //--------------------paint p2's hint of in cave-----------------
         try {
-            if(uidata.s2.isInCave) {
+            if(duidata.s2.isInCave) {
             	g.drawImage(greenInCave, (WIDTH-200)/2-110, 500, 200, 100, null);
                 g.setColor(new Color(0f, 0f, 0f, 0.5f));
                 g.fillRoundRect((WIDTH-200)/2-100, 500, 200, 100, 25, 25);
@@ -545,8 +559,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 			try {
 	            switch(e.getKeyCode()) {
 	                case KeyEvent.VK_RIGHT:
-	                    if(!Setting.GAMEOVER && uidata.s1.bodies[0].show &&  uidata.s1.wait==0 && !Setting.PAUSE && uidata.s1.dir!=1 /*&& Setting.valid[0]*/) {
-	                        uidata.nextDir1 = 0;
+	                    if(!Setting.GAMEOVER && duidata.s1.bodies[0].show &&  duidata.s1.wait==0 && !Setting.PAUSE && duidata.s1.dir!=1 /*&& Setting.valid[0]*/) {
+	                        duidata.nextDir1 = 0;
 	                        if(MusicThread.volume!=0) {
 	                        	soIn = AudioSystem.getAudioInputStream(soFile);
 		                        so = AudioSystem.getClip();
@@ -557,8 +571,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 	                    }
 	                break;
                     case KeyEvent.VK_LEFT:
-                        if(!Setting.GAMEOVER && uidata.s1.bodies[0].show && uidata.s1.wait==0 && !Setting.PAUSE && uidata.s1.dir!=0 /*&& Setting.valid[0]*/) {
-                            uidata.nextDir1 = 1;
+                        if(!Setting.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && !Setting.PAUSE && duidata.s1.dir!=0 /*&& Setting.valid[0]*/) {
+                            duidata.nextDir1 = 1;
                             if(MusicThread.volume!=0) {
                                 reIn = AudioSystem.getAudioInputStream(reFile);
                                 re = AudioSystem.getClip();
@@ -569,8 +583,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
                         }
                     break;
 	                case KeyEvent.VK_UP:
-	                    if(!Setting.GAMEOVER && uidata.s1.bodies[0].show && uidata.s1.wait==0 && !Setting.PAUSE && uidata.s1.dir!=3 /*&& Setting.valid[0]*/) {
-	                        uidata.nextDir1 = 2;
+	                    if(!Setting.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && !Setting.PAUSE && duidata.s1.dir!=3 /*&& Setting.valid[0]*/) {
+	                        duidata.nextDir1 = 2;
 	                        if(MusicThread.volume!=0) {
 		                        laIn = AudioSystem.getAudioInputStream(laFile);
 		                        la = AudioSystem.getClip();
@@ -581,8 +595,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 	                    }
 	                break;
 	                case KeyEvent.VK_DOWN:
-	                    if(!Setting.GAMEOVER && uidata.s1.bodies[0].show && uidata.s1.wait==0 && !Setting.PAUSE && uidata.s1.dir!=2 /*&& Setting.valid[0]*/) {
-	                        uidata.nextDir1 = 3;
+	                    if(!Setting.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && !Setting.PAUSE && duidata.s1.dir!=2 /*&& Setting.valid[0]*/) {
+	                        duidata.nextDir1 = 3;
 	                        if(MusicThread.volume!=0) {
 		                        doIn = AudioSystem.getAudioInputStream(doFile);
 		                        doo = AudioSystem.getClip();
@@ -594,8 +608,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 	                break;
 	                //player2
 	                case KeyEvent.VK_D:
-	                    if(!Setting.GAMEOVER && uidata.s2.bodies[0].show && uidata.s2.wait==0 && !Setting.PAUSE && uidata.s2.dir!=1 /*&& Setting.valid[1]*/) {
-	                        uidata.nextDir2 = 0;
+	                    if(!Setting.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !Setting.PAUSE && duidata.s2.dir!=1 /*&& Setting.valid[1]*/) {
+	                        duidata.nextDir2 = 0;
 	                        //dos.writeBytes("0\n");
 	                        if(MusicThread.volume!=0) {
 	                        	soIn = AudioSystem.getAudioInputStream(soFile);
@@ -607,8 +621,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 	                    }
 	                break;
                     case KeyEvent.VK_A:
-                        if(!Setting.GAMEOVER && uidata.s2.bodies[0].show && uidata.s2.wait==0 && !Setting.PAUSE && uidata.s2.dir!=0 /*&& Setting.valid[1]*/) {
-                            uidata.nextDir2 = 1;
+                        if(!Setting.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !Setting.PAUSE && duidata.s2.dir!=0 /*&& Setting.valid[1]*/) {
+                            duidata.nextDir2 = 1;
                             //dos.writeBytes("1\n");
                             if(MusicThread.volume!=0) {
                                 reIn = AudioSystem.getAudioInputStream(reFile);
@@ -620,8 +634,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
                         }
                     break;
 	                case KeyEvent.VK_W:
-	                    if(!Setting.GAMEOVER && uidata.s2.bodies[0].show && uidata.s2.wait==0 && !Setting.PAUSE && uidata.s2.dir!=3 /*&& Setting.valid[1]*/) {
-	                        uidata.nextDir2 = 2;
+	                    if(!Setting.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !Setting.PAUSE && duidata.s2.dir!=3 /*&& Setting.valid[1]*/) {
+	                        duidata.nextDir2 = 2;
 	                        if(MusicThread.volume!=0) {
 	                        	laIn = AudioSystem.getAudioInputStream(laFile);
 		                        la = AudioSystem.getClip();
@@ -632,8 +646,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 	                    }
 	                break;
 	                case KeyEvent.VK_S:
-	                    if(!Setting.GAMEOVER && uidata.s2.bodies[0].show && uidata.s2.wait==0 && !Setting.PAUSE && uidata.s2.dir!=2 /*&& Setting.valid[1]*/) {
-	                        uidata.nextDir2 = 3;
+	                    if(!Setting.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !Setting.PAUSE && duidata.s2.dir!=2 /*&& Setting.valid[1]*/) {
+	                        duidata.nextDir2 = 3;
 	                        if(MusicThread.volume!=0) {
 		                        doIn = AudioSystem.getAudioInputStream(doFile);
 		                        doo = AudioSystem.getClip();
@@ -649,7 +663,7 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Runn
 	                    break;*/
                 }
                 oos.reset();
-                oos.writeObject(uidata);
+                oos.writeObject(duidata);
 	        } catch (Exception ex) {
 
 	        }

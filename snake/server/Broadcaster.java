@@ -4,15 +4,15 @@ import java.io.*;
 import java.net.SocketException;
 import java.util.*;
 
-import snake.game.UIData;
+import snake.game.*;
 
 public class Broadcaster extends Thread {
 	
-	UIData uidata;
+	DynamicUIData duidata;
 	ArrayList<ObjectOutputStream> oosList;
 	
-	Broadcaster(UIData uidata, ArrayList<ObjectOutputStream> oosList) {
-		this.uidata = uidata;
+	Broadcaster(DynamicUIData duidata, ArrayList<ObjectOutputStream> oosList) {
+		this.duidata = duidata;
 		this.oosList = oosList;
 	}
 	
@@ -23,7 +23,7 @@ public class Broadcaster extends Thread {
 			for(int index=0; index<Server.PERSONS; index++) {
 				try {
 					oosList.get(index).reset();
-					oosList.get(index).writeObject(uidata);
+					oosList.get(index).writeObject(duidata);
 				} catch(SocketException e) {
 					System.out.println("Player has left");
 				}

@@ -27,7 +27,7 @@ public class Initialization extends Thread{
         duidata = new DynamicUIData();
     	for(int index=0; index<Server.PERSONS; index++) {
     		try {
-				oosList.get(index).writeObject(duidata);
+				oosList.get(index).writeObject(uidata);
 			} catch (IOException e) {
 				System.out.println("Write Data Error");
 			}
@@ -40,9 +40,9 @@ public class Initialization extends Thread{
         }catch(Exception e) {
 
         }
-        new RunGame(uidata).start();
-        new Updater(uidata, oisList.get(0)).start();
-        new Updater(uidata, oisList.get(1)).start();
-        new Broadcaster(uidata, oosList).start();
+        new RunGame(duidata).start();
+        new Updater(duidata, oisList.get(0)).start();
+        new Updater(duidata, oisList.get(1)).start();
+        new Broadcaster(duidata, oosList).start();
     }
 }

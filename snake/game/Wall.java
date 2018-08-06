@@ -4,7 +4,8 @@ import snake.util.*;
 import java.io.*;
 
 public class Wall implements Serializable {
-    public static int WALL_NUMBER = 4;
+	private static final long serialVersionUID = 1L;
+	public static int WALL_NUMBER = 4;
     public static int WALL_KIND = 1;
     public int x;
     public int y;

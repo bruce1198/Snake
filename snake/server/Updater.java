@@ -16,11 +16,16 @@ public class Updater extends Thread{
 	private void update(DynamicUIData duiData) {
 		duidata.s1.dir = duiData.nextDir1;
 		duidata.s2.dir = duiData.nextDir2;
+		duidata.nextDir1 = duiData.nextDir1;
+		duidata.nextDir2 = duiData.nextDir2;
+		duidata.PAUSE1 = duiData.PAUSE1;
+		duidata.PAUSE2 = duiData.PAUSE2;
+		duidata.inGame1 = duiData.inGame1;
+		duidata.inGame2 = duiData.inGame2;
+		duidata.GAMEOVER = duiData.GAMEOVER;
 	}
 	@Override
 	public void run() {
-		while(true) {
-			
 		while(true) {
 			try {
 				DynamicUIData duiData = null;
@@ -29,13 +34,12 @@ public class Updater extends Thread{
 					update(duiData);
 				}
 			} catch(SocketException e) {
-				System.out.println("Player has left");
+				//System.out.println("Player has left");
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
-		}
 		}
 	}
 

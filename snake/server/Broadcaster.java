@@ -25,7 +25,7 @@ public class Broadcaster extends Thread {
 					oosList.get(index).reset();
 					oosList.get(index).writeObject(duidata);
 				} catch(SocketException e) {
-					System.out.println("Player has left");
+					//System.out.println("Player has left");
 				}
 				catch (IOException e) {
 					System.out.println("Write Data Error");

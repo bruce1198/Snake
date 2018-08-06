@@ -3,7 +3,9 @@ package snake.game;
 import java.io.Serializable;
 
 public class Body implements Serializable{
-    public int x;
+	private static final long serialVersionUID = 1L;
+	
+	public int x;
     public int y;
     public int dir;
     public boolean show;

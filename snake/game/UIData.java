@@ -3,7 +3,7 @@ package snake.game;
 import java.io.Serializable;
 
 public class UIData extends DynamicUIData implements Serializable{
-	
+	private static final long serialVersionUID = 1L;
 	public Wall[] walls;
 	public Point[] points;
 	public SnakeCave[] snakeCaves;

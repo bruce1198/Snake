@@ -3,15 +3,16 @@ package snake.game;
 import java.io.Serializable;
 
 public class Player implements Serializable{
-
-    public Snake[] snakes;
+	private static final long serialVersionUID = 1L;
+	
+	public Snake[] snakes;
     public int numberOfSnack;
     public int numberOfPoint;
     public Player(int number) {
         numberOfPoint = 0;
         numberOfSnack = number;
         snakes = new Snake[number];
-        snakes[number-1] = new Snake(0, 0, 0);
+        snakes[number-1] = new Snake(1, 0, 0);
     }
     public Player(int number, int id) {
         numberOfPoint = 0;

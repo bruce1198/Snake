@@ -5,3 +5,13 @@
 /MusicThread.class
 /MyTheme.class
 /GameWindow$Run.class
+/Body.class
+/DynamicUIData.class
+/NotEnoughSnakeException.class
+/Player.class
+/Point.class
+/RunGame.class
+/Snake.class
+/SnakeCave.class
+/UIData.class
+/Wall.class

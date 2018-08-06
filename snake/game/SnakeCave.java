@@ -1,14 +1,17 @@
 package snake.game;
 
-import java.awt.*;
 import java.io.*;
 import snake.util.Setting;
 
 public class SnakeCave implements Serializable{
-    public static int CAVE_NUMBER = 4;
+	private static final long serialVersionUID = 1L;
+	public static int CAVE_NUMBER = 4;
     public static int CAVE_KIND = 1;
     public int x;
     public int y;
+    public SnakeCave() {
+    	
+    }
     public SnakeCave(int x, int y) {
     	this.x = x;
     	this.y = y;

@@ -6,7 +6,9 @@ import java.io.Serializable;
 import snake.util.Setting;
 
 public class Snake implements Serializable{
-    public Body[] bodies = new Body[100];
+	private static final long serialVersionUID = 1L;
+	
+	public Body[] bodies = new Body[100];
     public int length;
     public int dir;
     public Color color;

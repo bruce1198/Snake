@@ -9,7 +9,6 @@ public class RunGame extends Thread {
     int HEIGHT;
     Player p1;
     Player p2;
-    Point[] points;
     public static Wall[] walls;
     public static SnakeCave[] snakeCaves;
     int numberOfPoint;
@@ -18,31 +17,29 @@ public class RunGame extends Thread {
     //keyboard valid[id]
     static boolean valid[];
     DynamicUIData duidata;
+    UIData uidata;
     
-    public RunGame(DynamicUIData duiData){
+    public RunGame(DynamicUIData duiData, UIData uiData){
         WIDTH = 1000;
         HEIGHT = 600;
         p1 = new Player(5);
         p2 = new Player(5, 2);
         numberOfPoint = 0;
-        points = null;
         move = new int[2];
         //keyboard
         valid = new boolean[2];
         Point.eggLeft = 2;
-        //put wall
-        putWall(Wall.getWalls());
-        //put caves
-        putCave(SnakeCave.getSnakeCaves());
         //put egg
-        putPoint();
-        putPoint();
         this.duidata = duiData;
+        this.uidata = uiData;
+        putWall(uiData);
+        putCave(uiData);
+        //putPoint();
+        //putPoint();
     }
     public void moveSnake(Snake s, Snake other, int id) throws NotEnoughSnakeException, 
                                     ArrayIndexOutOfBoundsException{
     	
-    	//System.out.println("move");
         if(s.wait==0) {//wait for two secs
             //move snake
             move[id]+=Setting.unit/20;
@@ -86,7 +83,9 @@ public class RunGame extends Thread {
                     s.bodies[0].y = s.bodies[0].y+HEIGHT;
                 s.bodies[0].dir = s.dir;
                 move[id] = 0;
-                valid[id] = true;
+                duidata.valid[id] = true;
+            	//System.out.println("move: "+id);
+            	//System.out.println(s.bodies[0].x+", "+s.bodies[0].y);
             }
         }
         else {
@@ -95,21 +94,24 @@ public class RunGame extends Thread {
         }
         
         // get point
-        if(getPoint(s)) {
+        if(getApple(s)) {
             s.getPoint();
             switch(id) {
                 case 0:
+                	duidata.p1.numberOfPoint++;
                     p1.getPoint();
                     break;
                 case 1:
+                	duidata.p2.numberOfPoint++;
                     p2.getPoint();
                     break;
             }
         }
         //hit head
         if(isHitHead(s, other) && s.wait==0) {
-        	p1.numberOfSnack--;
-        	p2.numberOfSnack--;
+        	//System.out.println("hit head");
+        	duidata.p1.numberOfSnack--;
+        	duidata.p2.numberOfSnack--;
         	int choiceCave = (int) (SnakeCave.CAVE_NUMBER * Math.random());
         	int choiceCave2;
         	while(true) {
@@ -135,11 +137,11 @@ public class RunGame extends Thread {
         else if(isHit(s, other)) {
             switch(id) {
                 case 0:
-                    p1.numberOfSnack--;
+                    duidata.p1.numberOfSnack--;
                     //System.out.println(p1.numberOfSnack);
                     break;
                 case 1:
-                    p2.numberOfSnack--;
+                	duidata.p2.numberOfSnack--;
                     //System.out.println(p1.numberOfSnack);
                     break;
             }
@@ -175,7 +177,7 @@ public class RunGame extends Thread {
         //tail go in cave
         else if(!s.isInCave && !s.bodies[s.length-1].show && s.wait==0  && !s.bodies[0].show) {
             s.isInCave = true;
-            s.inCave = 2*Snake.speed;
+            s.inCave = 2*duidata.speed;
             //System.out.println("tail go in cave");
         }
         //count two secs
@@ -196,6 +198,9 @@ public class RunGame extends Thread {
         }
         speedControl();
         pointControl();
+        lifeControl();
+        duidata.s1 = p1.getSnake();
+        duidata.s2 = p2.getSnake();
     }
     //--------------------------------------------------------------
     public void putPoint() {
@@ -206,26 +211,25 @@ public class RunGame extends Thread {
             if(isValid(x, y))
                 break;
         }
-        duidata.points[numberOfPoint] = new Point(x, y);
-        duidata.numberOfPoint++;
-        //System.out.println(numberOfPoint);
+        duidata.points[duidata.numberOfApple] = new Point(x, y);
+        duidata.numberOfApple++;
     }
     //if the position can set apple 
     private boolean isValid(int x, int y)  {
     	//wall
-        Wall[] walls = RunGame.walls;
-        SnakeCave[] snakeCaves = RunGame.snakeCaves;
-        for(int i=0; i<Wall.WALL_NUMBER; i++) {
-            for(int row=0; row<walls[i].height; row++) {
-                for(int col=0; col<walls[i].width; col++) {
-                    if(x==walls[i].x+Setting.unit*col && y==walls[i].y+Setting.unit*row)
+        //Wall[] walls = RunGame.walls;
+        //SnakeCave[] snakeCaves = RunGame.snakeCaves;
+        for(int i=0; i<uidata.numberOfWall; i++) {
+            for(int row=0; row<uidata.walls[i].height; row++) {
+                for(int col=0; col<uidata.walls[i].width; col++) {
+                    if(x==uidata.walls[i].x+Setting.unit*col && y==uidata.walls[i].y+Setting.unit*row)
                         return false;
                 }
             }
         }
         //cave
-        for(int i=0; i<SnakeCave.CAVE_NUMBER; i++) {
-            if(x==snakeCaves[i].x && y==snakeCaves[i].y)
+        for(int i=0; i<uidata.numberOfCave; i++) {
+            if(x==uidata.snakeCaves[i].x && y==uidata.snakeCaves[i].y)
                 return false;
         }
         //snakes
@@ -243,11 +247,23 @@ public class RunGame extends Thread {
         }
         return true;
     }
-    public void putWall(Wall[] walls) {
-        RunGame.walls = walls;
+    public void putWall(UIData uiData) {
+    	RunGame.walls = new Wall[50];
+    	for(int i=0; i<uiData.numberOfWall; i++) {
+    		walls[i] = new Wall();
+            RunGame.walls[i].x = uiData.walls[i].x;
+            RunGame.walls[i].y = uiData.walls[i].y;
+            RunGame.walls[i].height = uiData.walls[i].height;
+            RunGame.walls[i].width = uiData.walls[i].width;
+    	}
     }
-    public void putCave(SnakeCave[] cave) {
-        RunGame.snakeCaves = cave;
+    public void putCave(UIData uiData) {
+    	RunGame.snakeCaves = new SnakeCave[10];
+    	for(int i=0; i<uiData.numberOfCave; i++) {
+    		snakeCaves[i] = new SnakeCave();
+            RunGame.snakeCaves[i].x = uiData.snakeCaves[i].x;
+            RunGame.snakeCaves[i].y = uiData.snakeCaves[i].y;
+    	}
     }
     //---------hit head----------
     public boolean isHitHead(Snake s, Snake other) throws NotEnoughSnakeException {
@@ -310,67 +326,65 @@ public class RunGame extends Thread {
         }
         return false;
     }
-    public boolean getPoint(Snake s) throws NotEnoughSnakeException {
-        if(points!=null) {
-            for(int i=0; i<numberOfPoint; i++) {
-                try{
-                    if(s.bodies[0].x==points[i].x && s.bodies[0].y==points[i].y
-                        && s.bodies[0].show) {
-                        points[i] = null;
-                        return true;
-                    }
-                }catch(NullPointerException e) {
-
+    public boolean getApple(Snake s) throws NotEnoughSnakeException {
+        for(int i=0; i<duidata.numberOfApple; i++) {
+            try{
+                if(s.bodies[0].x==duidata.points[i].x && s.bodies[0].y==duidata.points[i].y
+                    && s.bodies[0].show) {
+                    duidata.points[i] = null;
+                    return true;
                 }
+            }catch(NullPointerException e) {
+
             }
         }
         return false;
     }
     //speed control
     public void speedControl() {
-    	if(p1.numberOfPoint>=20 || p2.numberOfPoint>=20)
-    		Snake.speed = 300;
-    	else if(p1.numberOfPoint>=10 || p2.numberOfPoint>=10)
-    		Snake.speed = 200;
+    	if(duidata.p1.numberOfPoint>=20 || duidata.p2.numberOfPoint>=20)
+    		duidata.speed = 300;
+    	else if(duidata.p1.numberOfPoint>=10 || duidata.p2.numberOfPoint>=10)
+    		duidata.speed = 200;
     	else
-    		Snake.speed = 120;
+    		duidata.speed = 120;
+    	Snake.speed = duidata.speed;
     }
     //game over control
     public void pointControl() {
-    	if(p1.numberOfPoint>=30 || p2.numberOfPoint>=30)
+    	if(duidata.p1.numberOfPoint>=30 || duidata.p2.numberOfPoint>=30)
     		Setting.GAMEOVER = true;
+    }
+    public void lifeControl() {
+    	if(duidata.p1.numberOfSnack==0 || duidata.p1.numberOfSnack==0 ) {
+    		duidata.GAMEOVER = true;
+    	}
     }
     //run
 	@Override
 	public void run() {
         init();
+        duidata.waitOtherPlayer = false;
 		int put = 0;
 		while(true) {
-			/*if(Main.change==1) {
-				init();
-				Main.change = 0;
-			}*/
-			if(Setting.window==2) {
-				//
-				//System.out.println("run");
-				try {
-					if(!Setting.PAUSE && !Setting.GAMEOVER) moveSnake(duidata.s1, duidata.s2, 0);
-					if(!Setting.PAUSE && !Setting.GAMEOVER) moveSnake(duidata.s2, duidata.s1, 1);
-				}catch(NotEnoughSnakeException e) {
-					Setting.GAMEOVER = true;
-				}
-				//System.out.println("hi");
-			}
-			if(Point.eggLeft==0 && !Setting.PAUSE) {
+            //System.out.println("run");
+            try {
+                if(!duidata.PAUSE1 && !duidata.PAUSE2 && !duidata.GAMEOVER) moveSnake(duidata.s1, duidata.s2, 0);
+                if(!duidata.PAUSE1 && !duidata.PAUSE2 && !duidata.GAMEOVER) moveSnake(duidata.s2, duidata.s1, 1);
+            }catch(NotEnoughSnakeException e) {
+                duidata.GAMEOVER = true;
+            }
+            //System.out.println("hi");
+			if(Point.eggLeft==0 && !duidata.PAUSE1 && !duidata.PAUSE2) {
                 put++;
             }
-            if(put==2*Snake.speed && !Setting.PAUSE) {
+            if(put==2*duidata.speed && !duidata.PAUSE1 && !duidata.PAUSE2) {
                 putPoint();
                 putPoint();
                 Point.eggLeft = 2;
                 put = 0;
             }
-			try {Thread.sleep(1000/Snake.speed);} catch (InterruptedException e) {
+			try {Thread.sleep(1000/duidata.speed);} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -378,16 +392,14 @@ public class RunGame extends Thread {
 	public void init() {
     	p1 = new Player(5);
     	p2 = new Player(5, 2);
-    	numberOfPoint = 0;
-        points = null;
     	move = new int[2];
         //keyboard
     	valid = new boolean[2];
         Point.eggLeft = 2;
         //put wall
-        //putWall(Wall.getWalls());
+        putWall(uidata);
         //put caves
-        //putCave(SnakeCave.getSnakeCaves());
+        putCave(uidata);
         //put egg
         putPoint();
         putPoint();

@@ -40,9 +40,14 @@ public class Initialization extends Thread{
         }catch(Exception e) {
 
         }
-        new RunGame(duidata).start();
         new Updater(duidata, oisList.get(0)).start();
         new Updater(duidata, oisList.get(1)).start();
         new Broadcaster(duidata, oosList).start();
+    	try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+        new RunGame(duidata, uidata).start();
     }
 }

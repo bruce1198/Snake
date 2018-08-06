@@ -25,12 +25,17 @@ public class Server extends Thread{
 	public void run() {
     	
         try {
-            server = new ServerSocket(port);
+			server = new ServerSocket(port);
+			System.out.println(InetAddress.getLocalHost());
             while(true) {
+        		clients = new ArrayList<Socket>();
+        		oosList = new ArrayList<ObjectOutputStream>();
+        		oisList = new ArrayList<ObjectInputStream>();
             	for(int i=0; i<PERSONS; i++) {
                 	Socket client = server.accept();
                 	oos = new ObjectOutputStream(client.getOutputStream());
                 	ois = new ObjectInputStream(client.getInputStream());
+                	oos.writeObject(i);
                 	clients.add(client);
                 	oosList.add(oos);
                 	oisList.add(ois);
@@ -43,6 +48,6 @@ public class Server extends Thread{
             }
         } catch (IOException e) {
         	
-        }
+        } 
 	}
 }

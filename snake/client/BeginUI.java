@@ -2,13 +2,17 @@ package snake.client;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.*;
 
-public class BeginUI extends JPanel implements KeyListener{
-    static int choice = 0;
+public class BeginUI extends JPanel implements KeyListener, MouseListener, MouseMotionListener{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	static int choice = 0;
     int WIDTH;
     int HEIGHT;
     //mouse
@@ -38,6 +42,8 @@ public class BeginUI extends JPanel implements KeyListener{
         } catch (Exception e) {
             System.out.println("Error");
         }
+        addMouseMotionListener(this);
+        addMouseListener(this);
     }
     @Override
     public void paintComponent(Graphics g) {
@@ -58,30 +64,29 @@ public class BeginUI extends JPanel implements KeyListener{
     }
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		/*if(Main.window==1) {
+		if(Client.window==0) {
 			switch(e.getKeyCode()) {
 		        case KeyEvent.VK_ENTER:
-		            if(BeginWindow.choice==0) {
-		                Main.window = 2;
-		            	GameWindow.PAUSE = false;
+		            if(BeginUI.choice==0) {
+		                Client.window = 1;
+		                Client.change = 2;
 		            }
 		            break;
 		        case KeyEvent.VK_UP:
-		            if(BeginWindow.choice!=0) {
-		                BeginWindow.choice--;
+		            if(BeginUI.choice!=0) {
+		                BeginUI.choice--;
 		            }
 		            break;
 		        case KeyEvent.VK_DOWN:
-		            if(BeginWindow.choice!=1)
-		                BeginWindow.choice++;
+		            if(BeginUI.choice!=1)
+		                BeginUI.choice++;
 		            break;
 			}
-		}*/
+		}
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -93,6 +98,57 @@ public class BeginUI extends JPanel implements KeyListener{
 					MusicThread.volume = 0.4f;
 			}
 		}*/
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if(Client.window==0) {
+			if(e.getX()>=900&&e.getX()<=1000&&e.getY()>=520&&e.getY()<=600) {
+				BeginUI.exitClick = true;
+			}
+			else {
+				BeginUI.exitClick = false;
+			}
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(Client.window==0) {
+			if(e.getX()>=900&&e.getX()<=1000&&e.getY()>=520&&e.getY()<=600) {
+				BeginUI.exitClick = true;
+			}
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if(Client.window==0) {
+			if(e.getX()>=900&&e.getX()<=1000&&e.getY()>=520&&e.getY()<=600) {
+				Client.EXIT = -1;
+				//System.out.println("click");
+			}
+			BeginUI.exitClick = false;
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
+	@Override
+	public void mouseDragged(MouseEvent e) {
 		
 	}
 }

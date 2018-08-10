@@ -15,6 +15,7 @@ public class Client extends Thread{
 
 	public static int window;
 	public static int change;
+	public static int once;
 	public static int EXIT;
 	public static String name;
 	public static String IP;
@@ -23,6 +24,7 @@ public class Client extends Thread{
 	public Client() {
 		window = 0;
 		change = 0;
+		once = 1;
 		EXIT = 666;
 		name = "";
 		IP = "";
@@ -47,6 +49,7 @@ public class Client extends Thread{
 		}
         SwingUtilities.updateComponentTreeUI (jFrame);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setFocusable(true);
         jFrame.setResizable(false);
         jFrame.pack();
         jFrame.setLocationRelativeTo(null); //center the jframe
@@ -82,8 +85,11 @@ public class Client extends Thread{
         			System.exit(0);
         		}
         		if(window==0) {
-                    jFrame.setContentPane(beginUI);
-                    jFrame.setVisible(true);
+        			if(once==1) {
+                        jFrame.setContentPane(beginUI);
+                        jFrame.setVisible(true);
+                        once = 0;
+        			}
                 }
         		else if(window==1) {
         			if(change==2) {

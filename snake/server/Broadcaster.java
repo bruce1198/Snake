@@ -18,20 +18,28 @@ public class Broadcaster extends Thread {
 	
 	@Override
 	public void run() {
-		while(true) {
+		while(duidata.inGame1||duidata.inGame2) {
 			try { Thread.sleep(20); } catch (InterruptedException e) { }
 			for(int index=0; index<Server.PERSONS; index++) {
 				try {
 					oosList.get(index).reset();
 					oosList.get(index).writeObject(duidata);
 				} catch(SocketException e) {
-					//System.out.println("Player has left");
+					switch(index) {
+						case 0:
+							duidata.inGame1 = false;
+							break;
+						case 1:
+							duidata.inGame2 = false;
+							break;
+					}
 				}
 				catch (IOException e) {
-					System.out.println("Write Data Error");
+					
 				}
 			}
 		}
+		System.out.println("broadcaster stop");
 	}
 
 }

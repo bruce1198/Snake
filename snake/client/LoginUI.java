@@ -16,6 +16,7 @@ public class LoginUI extends JPanel {
     MyTextField IPField;
     MyTextField portField;
     MyButton go;
+    MyButton cancel;
     
     LoginUI(){
         setPreferredSize(new Dimension(1000, 600));
@@ -29,6 +30,7 @@ public class LoginUI extends JPanel {
         IPField = new MyTextField("IP");
         portField = new MyTextField("Port");
         go = new MyButton("GO");
+        cancel = new MyButton("CANCEL");
         go.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -41,16 +43,28 @@ public class LoginUI extends JPanel {
 				}
 			}
         });
+        cancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Client.window = 0;
+				Client.once = 1;
+			}
+        	
+        });
         setLayout(null);
         IPField.setBounds(275, 250, 450, 70);
         IPField.setFont(new Font("Consolas", Font.PLAIN, 40));
         portField.setBounds(275, 350, 450, 70);
         portField.setFont(new Font("Consolas", Font.PLAIN, 40));
-        go.setBounds(400, 450, 200, 100);
+        go.setBounds(520, 450, 200, 100);
         go.setFont(new Font("Consolas", Font.PLAIN, 60));
+        cancel.setBounds(280, 450, 200, 100);
+        cancel.setFont(new Font("Consolas", Font.PLAIN, 60));
         add(IPField);
         add(portField);
         add(go);
+        add(cancel);
     }
     @Override
     public void paintComponent(Graphics g) {

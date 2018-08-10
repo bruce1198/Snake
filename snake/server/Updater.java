@@ -26,7 +26,7 @@ public class Updater extends Thread{
 	}
 	@Override
 	public void run() {
-		while(true) {
+		while(duidata.inGame1||duidata.inGame2) {
 			try {
 				DynamicUIData duiData = null;
 				duiData = (DynamicUIData) ois.readObject();
@@ -34,13 +34,14 @@ public class Updater extends Thread{
 					update(duiData);
 				}
 			} catch(SocketException e) {
-				//System.out.println("Player has left");
+				break;
 			} catch (ClassNotFoundException e) {
 				//e.printStackTrace();
 			} catch (IOException e) {
 				//e.printStackTrace();
 			}
 		}
+		System.out.println("updater stop");
 	}
 
 }

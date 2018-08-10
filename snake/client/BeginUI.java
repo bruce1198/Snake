@@ -22,27 +22,49 @@ public class BeginUI extends JPanel implements KeyListener, MouseListener, Mouse
     Image help;
     Image water;
     Image exit;
-    Image cursor;
+    Image helppane;
+    HelpPanel panel;
+    MyButton returnBtn;
+    JScrollPane jsp;
     BeginUI() {
         setPreferredSize(new Dimension(1000, 600));
     	WIDTH = 1000;
         HEIGHT = 600;
         exitClick = false;
-        /*setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
-        WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-        HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;*/
         try {
             beginPage = ImageIO.read(new File(".\\source\\picture\\beginPage.png"));
             start = ImageIO.read(new File(".\\source\\picture\\start.png"));
             help = ImageIO.read(new File(".\\source\\picture\\help.png"));
             water = ImageIO.read(new File(".\\source\\picture\\water.png"));
             exit = ImageIO.read(new File(".\\source\\picture\\escape.png"));
-            //set cursor
-            cursor = ImageIO.read(new File(".\\source\\picture\\cursor.png"));
+            helppane = ImageIO.read(new File(".\\source\\picture\\helppane.png"));
         } catch (Exception e) {
             System.out.println("Error");
         }
-        addMouseMotionListener(this);
+        //help
+        setLayout(null);
+        panel = new HelpPanel(helppane);
+        returnBtn = new MyButton("Close");
+        returnBtn.setBounds(450, 520, 100, 50);
+        returnBtn.setVisible(false);
+        returnBtn.setForeground(Color.BLACK);
+        returnBtn.setFont(new Font("Consolas", Font.PLAIN, 30));
+        returnBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jsp.setVisible(false);
+				returnBtn.setVisible(false);
+			}
+        	
+        });
+        jsp = new JScrollPane(panel);
+        jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jsp.setBounds(200, 100, 600, 400);
+        jsp.setVisible(false);
+        add(jsp);
+        add(returnBtn);
         addMouseListener(this);
     }
     @Override
@@ -59,7 +81,10 @@ public class BeginUI extends JPanel implements KeyListener, MouseListener, Mouse
         }
         g.drawImage(exit, WIDTH-exit.getWidth(null), HEIGHT-exit.getHeight(null), exit.getWidth(null), exit.getHeight(null), null);
         //
-        //g.drawImage(cursor, GameMouseListener.MOUSE_X-6, GameMouseListener.MOUSE_Y-30, 50, 50, null);
+        if(jsp.isVisible()) {
+            g.setColor(new Color(0, 0, 0, 100));
+            g.fillRect(0, 0, 1000, 600);
+        }
         repaint();
     }
 	@Override
@@ -68,12 +93,16 @@ public class BeginUI extends JPanel implements KeyListener, MouseListener, Mouse
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(Client.window==0) {
+		if(Client.window==0 && !jsp.isVisible()) {
 			switch(e.getKeyCode()) {
 		        case KeyEvent.VK_ENTER:
 		            if(BeginUI.choice==0) {
 		                Client.window = 1;
 		                Client.change = 2;
+		            }
+		            else if(BeginUI.choice==1) {
+		            	jsp.setVisible(!jsp.isVisible());
+		            	returnBtn.setVisible(!returnBtn.isVisible());
 		            }
 		            break;
 		        case KeyEvent.VK_UP:
@@ -104,7 +133,7 @@ public class BeginUI extends JPanel implements KeyListener, MouseListener, Mouse
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if(Client.window==0) {
-			if(e.getX()>=900&&e.getX()<=1000&&e.getY()>=520&&e.getY()<=600) {
+			if(e.getX()>=900&&e.getX()<=1000&&e.getY()>=520&&e.getY()<=600 && !jsp.isVisible()) {
 				BeginUI.exitClick = true;
 			}
 			else {
@@ -120,7 +149,7 @@ public class BeginUI extends JPanel implements KeyListener, MouseListener, Mouse
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(Client.window==0) {
+		if(Client.window==0 && !jsp.isVisible()) {
 			if(e.getX()>=900&&e.getX()<=1000&&e.getY()>=520&&e.getY()<=600) {
 				BeginUI.exitClick = true;
 			}
@@ -129,7 +158,7 @@ public class BeginUI extends JPanel implements KeyListener, MouseListener, Mouse
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(Client.window==0) {
+		if(Client.window==0 && !jsp.isVisible()) {
 			if(e.getX()>=900&&e.getX()<=1000&&e.getY()>=520&&e.getY()<=600) {
 				Client.EXIT = -1;
 				//System.out.println("click");

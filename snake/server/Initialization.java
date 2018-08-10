@@ -6,9 +6,9 @@ import java.util.*;
 
 import snake.game.*;
 
-public class Initialization extends Thread{
+public class Initialization implements Runnable{
     
-    ArrayList<Socket> clients;
+	ArrayList<Socket> clients;
     ArrayList<ObjectOutputStream> oosList;
     ArrayList<ObjectInputStream> oisList;
     UIData uidata;
@@ -27,9 +27,15 @@ public class Initialization extends Thread{
         duidata = new DynamicUIData();
     	for(int index=0; index<Server.PERSONS; index++) {
     		try {
-				oosList.get(index).writeObject(uidata);
+    			DynamicUIData duiData = (DynamicUIData)oisList.get(index).readObject();
+    			duidata.inGame1 = duiData.inGame1;
+    			duidata.inGame2 = duiData.inGame2;
+    			oosList.get(index).writeObject(uidata);
+    			oosList.get(index).writeObject(duidata);
 			} catch (IOException e) {
 				System.out.println("Write Data Error");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
     	}
     }
@@ -40,14 +46,19 @@ public class Initialization extends Thread{
         }catch(Exception e) {
 
         }
-        new Updater(duidata, oisList.get(0)).start();
-        new Updater(duidata, oisList.get(1)).start();
-        new Broadcaster(duidata, oosList).start();
+    	
     	try {
-			Thread.sleep(3000);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-        new RunGame(duidata, uidata).start();
+        Updater u1 = new Updater(duidata, oisList.get(0));
+        Updater u2 = new Updater(duidata, oisList.get(1));
+        Broadcaster caster = new Broadcaster(duidata, oosList);
+        RunGame game = new RunGame(duidata, uidata);
+        u1.start();
+        u2.start();
+        caster.start();
+        game.start();
     }
 }

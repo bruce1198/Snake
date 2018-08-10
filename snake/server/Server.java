@@ -41,7 +41,7 @@ public class Server extends Thread{
                 	oisList.add(ois);
                 }
             	Initialization initialization = new Initialization(clients, oisList, oosList);
-            	initialization.start();
+            	new Thread(initialization).start();
             	/*clients.clear();
             	oisList.clear();
             	oosList.clear();*/

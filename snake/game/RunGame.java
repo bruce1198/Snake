@@ -366,7 +366,7 @@ public class RunGame extends Thread {
         init();
         duidata.waitOtherPlayer = false;
 		int put = 0;
-		while(true) {
+		while(duidata.inGame1||duidata.inGame2) {
             //System.out.println("run");
             try {
                 if(!duidata.PAUSE1 && !duidata.PAUSE2 && !duidata.GAMEOVER) moveSnake(duidata.s1, duidata.s2, 0);
@@ -388,6 +388,7 @@ public class RunGame extends Thread {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("run game stop");
 	}
 	public void init() {
     	p1 = new Player(5);

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -186,6 +187,8 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 	private void update(DynamicUIData duiData) {
         this.duidata = duiData;
         duidata.GAMEOVER = duiData.GAMEOVER;
+        duidata.inGame1 = duiData.inGame1;
+        duidata.inGame2 = duiData.inGame2;
 	}
 	@Override
 	public void run() {
@@ -208,14 +211,14 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
             if(id==0) {
             	duidata.inGame1 = true;
             }
-            else {
+            else if(id==1){
             	duidata.inGame1 = true;
             	duidata.inGame2 = true;
             }
-            uiData = (UIData)ois.readObject();
-            init(uiData);
             oos.reset();
             oos.writeObject(duidata);
+            uiData = (UIData)ois.readObject();
+            init(uiData);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -231,7 +234,7 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
-				System.out.println("Server shut down");
+
 			}
 		}
     }
@@ -540,7 +543,10 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 		}
         //someone leave the game
         if((!duidata.inGame2 && id==0) || (!duidata.inGame1 && id==1)) {
-        	g.drawString("the other player left the game", 100, 100);
+        	g.setColor(Color.RED);
+        	g.setFont(new Font("STLiti", Font.BOLD, 25));
+        	g.drawString("The other player", 800, 175);
+        	g.drawString("has left the game.", 800, 200);
         }
         //-----------------------paint pause page----------------------
         if(duidata.PAUSE1 && id==0) {
@@ -670,14 +676,20 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
             else if(angn==0&&angd==0){
                 angn+=5;
             }
-            g.setColor(Color.black);
-            g.fillRect(0, 0, WIDTH, HEIGHT);
         	if(id==0) {
+                g.setColor(Color.black);
+                g.fillRect(0, 0, WIDTH, HEIGHT);
                 g.drawImage(loading1, 0, 35, 1000, 530, null);
             }
-        	else {
+        	else if(id==1){
+                g.setColor(Color.black);
+                g.fillRect(0, 0, WIDTH, HEIGHT);
                 g.drawImage(loading2, 0, 35, 1000, 530, null);
             }
+        	else {
+                g.setColor(Color.lightGray);
+                g.fillRect(0, 0, WIDTH, HEIGHT);
+        	}
             g.setColor(new Color(255, 255, 255, 100));
             Graphics2D g2 = (Graphics2D)g;
             g2.setStroke(new BasicStroke(7.0f));
@@ -690,11 +702,12 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
             g.drawString("your input way", 420, 530);
 
     		if(duidata.inGame1) {
-    			g.setColor(Color.white);
-    			g.drawString("Ready", 0, 10);
+    			g.setColor(Color.red);
+    			g.setFont(new Font("Arial", Font.ITALIC, 60));
+    			g.drawString("Ready", 100, 300);
     		} 
     		if(duidata.inGame2) {
-    			g.drawString("Ready", 700, 10);
+    			g.drawString("Ready", 650, 300);
     		}
         }
 		repaint();
@@ -886,7 +899,7 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 					duidata.inGame1 = false;
 					duidata.PAUSE1 = false;
 				}
-				else {
+				else if(id==1){
 					duidata.inGame2 = false;
 					duidata.PAUSE2 = false;
 				}
@@ -909,7 +922,7 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 					duidata.inGame1 = false;
 					duidata.PAUSE1 = false;
 				}
-				else {
+				else if(id==1){
 					duidata.inGame2 = false;
 					duidata.PAUSE2 = false;
 				}
@@ -932,7 +945,9 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 			exitClick = false;
 			try {
 				oos.writeObject(duidata);
-			} catch (IOException e1) {
+			} catch(SocketException e1) {
+				
+			}catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}

@@ -52,8 +52,8 @@ public class Initialization implements Runnable{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-        Updater u1 = new Updater(duidata, oisList.get(0));
-        Updater u2 = new Updater(duidata, oisList.get(1));
+        Updater u1 = new Updater(duidata, oisList.get(0), 0);
+        Updater u2 = new Updater(duidata, oisList.get(1), 1);
         Broadcaster caster = new Broadcaster(duidata, oosList);
         RunGame game = new RunGame(duidata, uidata);
         u1.start();

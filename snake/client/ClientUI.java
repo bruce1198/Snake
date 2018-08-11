@@ -720,132 +720,148 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 	public void keyPressed(KeyEvent e) {
 		if(Client.window==2 && client!=null && client.isConnected()) {
 			try {
-                synchronized(duidata) {
-                    switch(e.getKeyCode()) {
-                        case KeyEvent.VK_RIGHT:
-                            if(!duidata.GAMEOVER && duidata.s1.bodies[0].show &&  duidata.s1.wait==0 && !Setting.PAUSE && duidata.s1.dir!=1 && duidata.valid[0] && id==0) {
-                                duidata.nextDir1 = 0;
-                                duidata.nextDir2 = duidata.s2.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    soIn = AudioSystem.getAudioInputStream(soFile);
-                                    so = AudioSystem.getClip();
-                                    so.open(soIn);
-                                    so.start();
-                                }*/
-                                duidata.valid[0] = false;
-                            }
-                        break;
-                        case KeyEvent.VK_LEFT:
-                            if(!duidata.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && !Setting.PAUSE && duidata.s1.dir!=0 && duidata.valid[0] && id==0) {
-                                duidata.nextDir1 = 1;
-                                duidata.nextDir2 = duidata.s2.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    reIn = AudioSystem.getAudioInputStream(reFile);
-                                    re = AudioSystem.getClip();
-                                    re.open(reIn);
-                                    re.start();
-                                }*/
-                                duidata.valid[0] = false;
-                            }
-                        break;
-                        case KeyEvent.VK_UP:
-                            if(!duidata.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && duidata.s1.dir!=3 && duidata.valid[0] && id==0) {
-                                duidata.nextDir1 = 2;
-                                duidata.nextDir2 = duidata.s2.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    laIn = AudioSystem.getAudioInputStream(laFile);
-                                    la = AudioSystem.getClip();
-                                    la.open(laIn);
-                                    la.start();
-                                }*/
-                                duidata.valid[0] = false;
-                            }
-                        break;
-                        case KeyEvent.VK_DOWN:
-                            if(!duidata.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && duidata.s1.dir!=2 && duidata.valid[0] && id==0) {
-                                duidata.nextDir1 = 3;
-                                duidata.nextDir2 = duidata.s2.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    doIn = AudioSystem.getAudioInputStream(doFile);
-                                    doo = AudioSystem.getClip();
-                                    doo.open(doIn);
-                                    doo.start();
-                                }*/
-                                duidata.valid[0] = false;
-                            }
-                        break;
-                        //player2
-                        case KeyEvent.VK_D:
-                            if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && duidata.s2.dir!=1 && duidata.valid[1] && id==1) {
-                                duidata.nextDir2 = 0;
-                                duidata.nextDir1 = duidata.s1.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    soIn = AudioSystem.getAudioInputStream(soFile);
-                                    so = AudioSystem.getClip();
-                                    so.open(soIn);
-                                    so.start();
-                                }*/
-                                duidata.valid[1] = false;
-                            }
-                        break;
-                        case KeyEvent.VK_A:
-                            if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && duidata.s2.dir!=0 && duidata.valid[1] && id==1) {
-                                duidata.nextDir2 = 1;
-                                duidata.nextDir1 = duidata.s1.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    reIn = AudioSystem.getAudioInputStream(reFile);
-                                    re = AudioSystem.getClip();
-                                    re.open(reIn);
-                                    re.start();
-                                }*/
-                                duidata.valid[1] = false;
-                            }
-                        break;
-                        case KeyEvent.VK_W:
-                            if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && duidata.s2.dir!=3 && duidata.valid[1] && id==1) {
-                                duidata.nextDir2 = 2;
-                                duidata.nextDir1 = duidata.s1.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    laIn = AudioSystem.getAudioInputStream(laFile);
-                                    la = AudioSystem.getClip();
-                                    la.open(laIn);
-                                    la.start();
-                                }*/
-                                duidata.valid[1] = false;
-                            }
-                        break;
-                        case KeyEvent.VK_S:
-                            if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && duidata.s2.dir!=2 && duidata.valid[1] && id==1) {
-                                duidata.nextDir2 = 3;
-                                duidata.nextDir1 = duidata.s1.dir;
-                                /*if(MusicThread.volume!=0) {
-                                    doIn = AudioSystem.getAudioInputStream(doFile);
-                                    doo = AudioSystem.getClip();
-                                    doo.open(doIn);
-                                    doo.start();
-                                }*/
-                                duidata.valid[1] = false;
-                            }
-                        break;
-                        case KeyEvent.VK_ESCAPE:
-                            if(!duidata.GAMEOVER) {
-                                duidata.nextDir1 = duidata.s1.dir;
-                                duidata.nextDir2 = duidata.s2.dir;
-                                if(id==0)
-                                	duidata.PAUSE1 = !duidata.PAUSE1;
-                                else if(id==1)
-                                	duidata.PAUSE2 = !duidata.PAUSE2;
-                            }
-                        break;
-                        default:
+                switch(e.getKeyCode()) {
+                    case KeyEvent.VK_RIGHT:
+                        if(!duidata.GAMEOVER && duidata.s1.bodies[0].show &&  duidata.s1.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s1.dir!=1 && duidata.valid[0] && id==0) {
+                            duidata.nextDir1 = 0;
+                            duidata.nextDir2 = duidata.s2.dir;
+                            /*if(MusicThread.volume!=0) {
+                                soIn = AudioSystem.getAudioInputStream(soFile);
+                                so = AudioSystem.getClip();
+                                so.open(soIn);
+                                so.start();
+                            }*/
+                            duidata.valid[0] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    case KeyEvent.VK_LEFT:
+                        if(!duidata.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s1.dir!=0 && duidata.valid[0] && id==0) {
+                            duidata.nextDir1 = 1;
+                            duidata.nextDir2 = duidata.s2.dir;
+                            /*if(MusicThread.volume!=0) {
+                                reIn = AudioSystem.getAudioInputStream(reFile);
+                                re = AudioSystem.getClip();
+                                re.open(reIn);
+                                re.start();
+                            }*/
+                            duidata.valid[0] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    case KeyEvent.VK_UP:
+                        if(!duidata.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s1.dir!=3 && duidata.valid[0] && id==0) {
+                            duidata.nextDir1 = 2;
+                            duidata.nextDir2 = duidata.s2.dir;
+                            /*if(MusicThread.volume!=0) {
+                                laIn = AudioSystem.getAudioInputStream(laFile);
+                                la = AudioSystem.getClip();
+                                la.open(laIn);
+                                la.start();
+                            }*/
+                            duidata.valid[0] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    case KeyEvent.VK_DOWN:
+                        if(!duidata.GAMEOVER && duidata.s1.bodies[0].show && duidata.s1.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s1.dir!=2 && duidata.valid[0] && id==0) {
+                            duidata.nextDir1 = 3;
+                            duidata.nextDir2 = duidata.s2.dir;
+                            /*if(MusicThread.volume!=0) {
+                                doIn = AudioSystem.getAudioInputStream(doFile);
+                                doo = AudioSystem.getClip();
+                                doo.open(doIn);
+                                doo.start();
+                            }*/
+                            duidata.valid[0] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    //player2
+                    case KeyEvent.VK_D:
+                        if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s2.dir!=1 && duidata.valid[1] && id==1) {
+                            duidata.nextDir2 = 0;
+                            duidata.nextDir1 = duidata.s1.dir;
+                            /*if(MusicThread.volume!=0) {
+                                soIn = AudioSystem.getAudioInputStream(soFile);
+                                so = AudioSystem.getClip();
+                                so.open(soIn);
+                                so.start();
+                            }*/
+                            duidata.valid[1] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    case KeyEvent.VK_A:
+                        if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s2.dir!=0 && duidata.valid[1] && id==1) {
+                            duidata.nextDir2 = 1;
+                            duidata.nextDir1 = duidata.s1.dir;
+                            /*if(MusicThread.volume!=0) {
+                                reIn = AudioSystem.getAudioInputStream(reFile);
+                                re = AudioSystem.getClip();
+                                re.open(reIn);
+                                re.start();
+                            }*/
+                            duidata.valid[1] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    case KeyEvent.VK_W:
+                        if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s2.dir!=3 && duidata.valid[1] && id==1) {
+                            duidata.nextDir2 = 2;
+                            duidata.nextDir1 = duidata.s1.dir;
+                            /*if(MusicThread.volume!=0) {
+                                laIn = AudioSystem.getAudioInputStream(laFile);
+                                la = AudioSystem.getClip();
+                                la.open(laIn);
+                                la.start();
+                            }*/
+                            duidata.valid[1] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    case KeyEvent.VK_S:
+                        if(!duidata.GAMEOVER && duidata.s2.bodies[0].show && duidata.s2.wait==0 && !duidata.PAUSE1 && !duidata.PAUSE2 && duidata.s2.dir!=2 && duidata.valid[1] && id==1) {
+                            duidata.nextDir2 = 3;
+                            duidata.nextDir1 = duidata.s1.dir;
+                            /*if(MusicThread.volume!=0) {
+                                doIn = AudioSystem.getAudioInputStream(doFile);
+                                doo = AudioSystem.getClip();
+                                doo.open(doIn);
+                                doo.start();
+                            }*/
+                            duidata.valid[1] = false;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    case KeyEvent.VK_ESCAPE:
+                        if(!duidata.GAMEOVER) {
                             duidata.nextDir1 = duidata.s1.dir;
                             duidata.nextDir2 = duidata.s2.dir;
-                        break;
-                    }
-                    oos.reset();
-                    oos.writeObject(duidata);
+                            if(id==0)
+                            	duidata.PAUSE1 = !duidata.PAUSE1;
+                            else if(id==1)
+                            	duidata.PAUSE2 = !duidata.PAUSE2;
+                        }
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
+                    default:
+                        duidata.nextDir1 = -1;
+                        duidata.nextDir2 = -1;
+                        oos.reset();
+                        oos.writeObject(duidata);
+                    break;
                 }
-	            
+            
 	        } catch (Exception ex) {
                 System.out.println("Write Error");
 	        }
@@ -893,6 +909,7 @@ public class ClientUI extends JPanel implements KeyListener, MouseListener, Mous
 			//menu
 			else if(e.getX()>=300&&e.getX()<=500&e.getY()>=235&&e.getY()<=360 && ((duidata.PAUSE1&&id==0) || (duidata.PAUSE2&&id==1) || duidata.GAMEOVER)) {
 				Client.window = 0;
+				Client.once = 1;
 				Client.change = 2;
 				duidata.GAMEOVER = false;
 				if(id==0) {

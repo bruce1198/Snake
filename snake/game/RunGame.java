@@ -11,11 +11,9 @@ public class RunGame extends Thread {
     Player p2;
     public static Wall[] walls;
     public static SnakeCave[] snakeCaves;
-    int numberOfPoint;
     //counter
     int move[];
     //keyboard valid[id]
-    static boolean valid[];
     DynamicUIData duidata;
     UIData uidata;
     
@@ -24,10 +22,8 @@ public class RunGame extends Thread {
         HEIGHT = 600;
         p1 = new Player(5);
         p2 = new Player(5, 2);
-        numberOfPoint = 0;
         move = new int[2];
         //keyboard
-        valid = new boolean[2];
         Point.eggLeft = 2;
         //put egg
         this.duidata = duiData;
@@ -130,7 +126,7 @@ public class RunGame extends Thread {
                 //valid[1] = true;
                 //System.out.println(GameWindow.snakeCaves[choiceCave].x+", "+ GameWindow.snakeCaves[choiceCave].y);
             } catch (ArrayIndexOutOfBoundsException e) {
-                Setting.GAMEOVER = true;
+                duidata.GAMEOVER = true;
             }
         }
         //hit wall
@@ -163,7 +159,7 @@ public class RunGame extends Thread {
                 }
                 //System.out.println(GameWindow.snakeCaves[choiceCave].x+", "+ GameWindow.snakeCaves[choiceCave].y);
             } catch (ArrayIndexOutOfBoundsException e) {
-                Setting.GAMEOVER = true;
+                duidata.GAMEOVER = true;
             }
             //System.out.println("hit function");
         }
@@ -353,10 +349,10 @@ public class RunGame extends Thread {
     //game over control
     public void pointControl() {
     	if(duidata.p1.numberOfPoint>=30 || duidata.p2.numberOfPoint>=30)
-    		Setting.GAMEOVER = true;
+    		duidata.GAMEOVER = true;
     }
     public void lifeControl() {
-    	if(duidata.p1.numberOfSnack==0 || duidata.p1.numberOfSnack==0 ) {
+    	if(duidata.p1.numberOfSnack<=0 || duidata.p1.numberOfSnack<=0 ) {
     		duidata.GAMEOVER = true;
     	}
     }
@@ -395,7 +391,6 @@ public class RunGame extends Thread {
     	p2 = new Player(5, 2);
     	move = new int[2];
         //keyboard
-    	valid = new boolean[2];
         Point.eggLeft = 2;
         //put wall
         putWall(uidata);

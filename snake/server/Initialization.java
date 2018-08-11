@@ -33,7 +33,7 @@ public class Initialization implements Runnable{
     			oosList.get(index).writeObject(uidata);
     			oosList.get(index).writeObject(duidata);
 			} catch (IOException e) {
-				System.out.println("Write Data Error");
+				//System.out.println("Write Data Error");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

@@ -26,3 +26,4 @@ s106060002
 	1. easy: initial speed
 	2. normal: one snake's point more than 10
 	3. hard: one snake's point more than 20
+6. server port: 5487
